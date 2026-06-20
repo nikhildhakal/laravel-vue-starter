@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Bouncer;
 use Illuminate\Database\Seeder;
+use Silber\Bouncer\BouncerFacade;
 
 class UsersTableSeeder extends Seeder
 {
@@ -15,19 +15,19 @@ class UsersTableSeeder extends Seeder
     {
         $users = User::factory(1)->create(
             [
-                'first_name' => 'Luke',
-                'last_name' => 'Skywalker',
-                'email' => 'luke@jedi.com',
+                'first_name' => 'Aruna',
+                'last_name' => 'Bhusal',
+                'email' => 'aruna@revonnaorganics.com',
                 'email_verified_at' => null,
-                'password' => bcrypt('123123'),
+                'password' => bcrypt('adminadmin'),
             ]
         );
 
-        Bouncer::assign('admin')->to($users->first());
+        BouncerFacade::assign('admin')->to($users->first());
 
         $others = User::factory(20)->create();
         foreach ($others as $model) {
-            Bouncer::assign('regular')->to($model);
+            BouncerFacade::assign('regular')->to($model);
         }
     }
 }

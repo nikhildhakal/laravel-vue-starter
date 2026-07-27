@@ -176,6 +176,14 @@ export default {
                     to: '/panel/users/list',
                 },
                 {
+                    name: trans('global.pages.product_categories'),
+                    icon: 'tag',
+                    showDesktop: true,
+                    showMobile: true,
+                    requiresAbility: getAbilitiesForRoute(['categories.list']),
+                    to: '/panel/categories/list',
+                },
+                {
                     name: trans('global.phrases.sign_out'),
                     icon: 'sign-out',
                     showDesktop: false,

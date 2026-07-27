@@ -4,6 +4,11 @@ const abilities = {
     DELETE_USER: 'delete_user',
     VIEW_USER: 'view_user',
     LIST_USER: 'list_user',
+    CREATE_CATEGORY: 'create_category',
+    EDIT_CATEGORY: 'edit_category',
+    DELETE_CATEGORY: 'delete_category',
+    VIEW_CATEGORY: 'view_category',
+    LIST_CATEGORY: 'list_category',
 }
 
 export default abilities;

@@ -10,8 +10,6 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use RuntimeException;
-use Throwable;
 
 class CategoryService
 {
@@ -23,7 +21,7 @@ class CategoryService
     public function index(array $data): AnonymousResourceCollection
     {
         $query = Category::query()
-            ->with('parent:id,name')
+            ->with(['media', 'parent:id,name'])
             ->withCount(['children', 'products']);
 
         $this->applySearch($query, $data['search'] ?? null);
@@ -41,7 +39,7 @@ class CategoryService
     public function get(Category $category): CategoryResource
     {
         return new CategoryResource(
-            $category->load('parent:id,name')->loadCount(['children', 'products'])
+            $category->load(['media', 'parent:id,name'])->loadCount(['children', 'products'])
         );
     }
 
@@ -52,18 +50,13 @@ class CategoryService
      */
     public function create(array $data, ?UploadedFile $image = null): Category
     {
-        $imagePath = $this->storeImage($image);
+        $category = Category::query()->create($data);
 
-        try {
-            return Category::query()->create([
-                ...$data,
-                'image' => $imagePath,
-            ]);
-        } catch (Throwable $exception) {
-            $this->deleteManagedImage($imagePath);
-
-            throw $exception;
+        if ($image !== null) {
+            $category->addMedia($image)->toMediaCollection('image');
         }
+
+        return $category->load('media');
     }
 
     /**
@@ -71,31 +64,23 @@ class CategoryService
      *
      * @param  array<string, mixed>  $data
      */
-    public function update(Category $category, array $data, ?UploadedFile $image = null): bool
+    public function update(
+        Category $category,
+        array $data,
+        ?UploadedFile $image = null,
+        bool $removeImage = false,
+    ): bool
     {
-        $previousImagePath = $category->image;
-        $newImagePath = $this->storeImage($image);
-
-        if ($newImagePath !== null) {
-            $data['image'] = $newImagePath;
-        }
-
-        try {
-            $updated = $category->update($data);
-        } catch (Throwable $exception) {
-            $this->deleteManagedImage($newImagePath);
-
-            throw $exception;
-        }
-
-        if (! $updated) {
-            $this->deleteManagedImage($newImagePath);
-
+        if (! $category->update($data)) {
             return false;
         }
 
-        if ($newImagePath !== null) {
-            $this->deleteManagedImage($previousImagePath);
+        if ($removeImage) {
+            $category->clearMediaCollection('image');
+            $this->removeLegacyImage($category);
+        } elseif ($image !== null) {
+            $category->addMedia($image)->toMediaCollection('image');
+            $this->removeLegacyImage($category);
         }
 
         return true;
@@ -103,11 +88,11 @@ class CategoryService
 
     public function delete(Category $category): bool
     {
-        $imagePath = $category->image;
+        $legacyImagePath = $category->image;
         $deleted = (bool) $category->delete();
 
-        if ($deleted) {
-            $this->deleteManagedImage($imagePath);
+        if ($deleted && $legacyImagePath !== null && Str::startsWith($legacyImagePath, 'categories/')) {
+            Storage::disk('public')->delete($legacyImagePath);
         }
 
         return $deleted;
@@ -178,25 +163,14 @@ class CategoryService
         return count($parts) === 3 ? $parts[2] : null;
     }
 
-    private function storeImage(?UploadedFile $image): ?string
+    private function removeLegacyImage(Category $category): void
     {
-        if ($image === null) {
-            return null;
+        if ($category->image !== null && Str::startsWith($category->image, 'categories/')) {
+            Storage::disk('public')->delete($category->image);
         }
 
-        $path = $image->store('categories', 'public');
-
-        if (! is_string($path)) {
-            throw new RuntimeException('The category image could not be stored.');
-        }
-
-        return $path;
-    }
-
-    private function deleteManagedImage(?string $path): void
-    {
-        if ($path !== null && Str::startsWith($path, 'categories/')) {
-            Storage::disk('public')->delete($path);
+        if ($category->image !== null) {
+            $category->forceFill(['image' => null])->saveQuietly();
         }
     }
 

@@ -77,6 +77,12 @@
                         {{ props.item.featured ? trans('categories.status.featured') : trans('categories.status.standard') }}
                     </span>
                 </template>
+                <template v-slot:content-children_count="props">
+                    <span class="badge badge-ghost badge-sm">{{ props.item.children_count }}</span>
+                </template>
+                <template v-slot:content-products_count="props">
+                    <span class="badge badge-ghost badge-sm">{{ props.item.products_count }}</span>
+                </template>
             </Table>
         </template>
     </Page>
@@ -99,9 +105,10 @@
             <div class="flex-grow overflow-y-auto p-6" v-if="!drawer.loading">
                 <form :id="formId" @submit.prevent="onDrawerSubmit">
                     <TextInput class="mb-4" name="name" :required="true" v-model="drawer.form.name" :label="trans('categories.labels.name')"/>
+                    <TextInput class="mb-4" name="slug" v-model="drawer.form.slug" :label="trans('categories.labels.slug')"/>
                     <Dropdown class="mb-4" name="parent" :options="drawer.parents" v-model="drawer.form.parent" :label="trans('categories.labels.parent')"/>
                     <TextInput class="mb-4" type="textarea" name="description" v-model="drawer.form.description" :label="trans('categories.labels.description')"/>
-                    <div v-if="drawer.currentImage && !drawer.form.image" class="mb-3">
+                    <div v-if="drawer.currentImage && !drawer.form.image && !drawer.form.remove_image" class="mb-3">
                         <p class="label-text mb-2">{{ trans('categories.labels.image') }}</p>
                         <img :src="drawer.currentImage" :alt="drawer.form.name" class="w-24 h-24 rounded-lg object-cover border border-base-300"/>
                     </div>
@@ -112,7 +119,12 @@
                         :label="trans('categories.labels.image')"
                         accept="image/jpeg,image/png,image/webp"
                         @clear="drawer.form.image = null"
+                        @change="drawer.form.remove_image = false"
                     />
+                    <label v-if="drawer.currentImage" class="label cursor-pointer justify-start gap-3 mb-4 rounded-lg border border-base-300 px-4 py-3">
+                        <input type="checkbox" class="checkbox checkbox-error checkbox-sm" v-model="drawer.form.remove_image"/>
+                        <span class="label-text">{{ trans('categories.labels.remove_image') }}</span>
+                    </label>
                     <TextInput class="mb-4" type="number" name="sort_order" :required="true" v-model="drawer.form.sort_order" :label="trans('categories.labels.sort_order')"/>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <label class="label cursor-pointer justify-start gap-3 rounded-lg border border-base-300 px-4 py-3">
@@ -148,6 +160,8 @@ import {getResponseError, prepareQuery} from "@/helpers/api";
 import {toUrl} from "@/helpers/routing";
 import {clearObject, fillObject} from "@/helpers/data";
 import {useToastStore} from "@/stores/toast";
+import {useAuthStore} from "@/stores/auth";
+import abilities from "@/stub/abilities";
 import alertHelpers from "@/helpers/alert";
 import CategoryService from "@/services/CategoryService";
 import Page from "@/views/layouts/Page";
@@ -178,6 +192,7 @@ export default defineComponent({
     setup() {
         const service = new CategoryService();
         const toastStore = useToastStore();
+        const authStore = useAuthStore();
 
         const mainQuery = reactive({
             page: 1,
@@ -208,11 +223,11 @@ export default defineComponent({
                     icon: 'filter',
                     theme: 'outline',
                 },
-                {
+                ...(authStore.hasAbilities(abilities.CREATE_CATEGORY) ? [{
                     id: 'new',
                     name: trans('global.buttons.add_new'),
                     icon: 'plus',
-                },
+                }] : []),
             ],
             toggleFilters: false,
         });
@@ -225,6 +240,8 @@ export default defineComponent({
                 is_active: trans('categories.labels.is_active'),
                 featured: trans('categories.labels.featured'),
                 sort_order: trans('categories.labels.sort_order'),
+                children_count: trans('categories.labels.children_count'),
+                products_count: trans('categories.labels.products_count'),
             },
             sorting: {
                 name: true,
@@ -238,19 +255,19 @@ export default defineComponent({
                 links: null,
             },
             actions: {
-                edit: {
+                ...(authStore.hasAbilities(abilities.EDIT_CATEGORY) ? {edit: {
                     id: 'edit',
                     name: trans('global.actions.edit'),
                     icon: 'edit',
                     showName: false,
-                },
-                delete: {
+                }} : {}),
+                ...(authStore.hasAbilities(abilities.DELETE_CATEGORY) ? {delete: {
                     id: 'delete',
                     name: trans('global.actions.delete'),
                     icon: 'trash',
                     showName: false,
                     danger: true,
-                },
+                }} : {}),
             },
             loading: false,
             records: [],
@@ -265,12 +282,14 @@ export default defineComponent({
             currentImage: null,
             form: {
                 name: '',
+                slug: '',
                 parent: null,
                 description: '',
                 image: null,
                 featured: false,
                 is_active: true,
                 sort_order: 0,
+                remove_image: false,
             },
         });
 
@@ -282,6 +301,8 @@ export default defineComponent({
             drawer.form.is_active = true;
             drawer.form.sort_order = 0;
             drawer.form.image = null;
+            drawer.form.slug = '';
+            drawer.form.remove_image = false;
             drawer.currentImage = null;
         }
 
@@ -339,12 +360,14 @@ export default defineComponent({
         function formPayload() {
             return {
                 name: drawer.form.name,
+                slug: drawer.form.slug,
                 parent_id: drawer.form.parent ? drawer.form.parent.id : 'null',
                 description: drawer.form.description || 'null',
                 image: drawer.form.image,
                 featured: drawer.form.featured ? '1' : '0',
                 is_active: drawer.form.is_active ? '1' : '0',
                 sort_order: String(drawer.form.sort_order ?? 0),
+                remove_image: drawer.form.remove_image ? '1' : '0',
             };
         }
 

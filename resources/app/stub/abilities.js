@@ -9,6 +9,11 @@ const abilities = {
     DELETE_CATEGORY: 'delete_category',
     VIEW_CATEGORY: 'view_category',
     LIST_CATEGORY: 'list_category',
+    CREATE_PRODUCT: 'create_product',
+    EDIT_PRODUCT: 'edit_product',
+    DELETE_PRODUCT: 'delete_product',
+    VIEW_PRODUCT: 'view_product',
+    LIST_PRODUCT: 'list_product',
 }
 
 export default abilities;

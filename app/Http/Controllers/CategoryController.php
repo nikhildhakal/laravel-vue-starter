@@ -12,6 +12,7 @@ use App\Services\Category\CategoryService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Collection;
+use Illuminate\Database\QueryException;
 
 class CategoryController extends Controller
 {
@@ -45,7 +46,7 @@ class CategoryController extends Controller
         $this->authorize('create', Category::class);
 
         $category = $this->categoryService->create(
-            $request->safe()->except('image'),
+            $request->safe()->except(['image', 'remove_image']),
             $request->file('image'),
         );
 
@@ -57,7 +58,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category): JsonResponse
     {
-        $this->authorize('view', Category::class);
+        $this->authorize('view', $category);
 
         return $this->responseDataSuccess(['model' => $this->categoryService->get($category)]);
     }
@@ -67,7 +68,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category): JsonResponse
     {
-        $this->authorize('edit', Category::class);
+        $this->authorize('edit', $category);
 
         return $this->responseDataSuccess([
             'model' => $this->categoryService->get($category),
@@ -80,12 +81,13 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category): JsonResponse
     {
-        $this->authorize('edit', Category::class);
+        $this->authorize('edit', $category);
 
         if ($this->categoryService->update(
             $category,
             $request->safe()->except('image'),
             $request->file('image'),
+            $request->boolean('remove_image'),
         )) {
             return $this->responseUpdateSuccess([
                 'record' => $this->categoryService->get($category->fresh()),
@@ -100,7 +102,14 @@ class CategoryController extends Controller
      */
     public function destroy(DestroyCategoryRequest $request, Category $category): JsonResponse
     {
-        $this->authorize('delete', Category::class);
+        $this->authorize('delete', $category);
+
+        if ($category->children()->exists()) {
+            return $this->responseFail(
+                trans('frontend.categories.validation.has_children'),
+                code: 422,
+            );
+        }
 
         if ($category->products()->exists()) {
             return $this->responseFail(
@@ -109,8 +118,16 @@ class CategoryController extends Controller
             );
         }
 
-        if ($this->categoryService->delete($category)) {
-            return $this->responseDeleteSuccess();
+        try {
+            if ($this->categoryService->delete($category)) {
+                return $this->responseDeleteSuccess();
+            }
+        } catch (QueryException $exception) {
+            if ((string) $exception->getCode() === '23000') {
+                return $this->responseDeleteFail(code: 422);
+            }
+
+            throw $exception;
         }
 
         return $this->responseDeleteFail();

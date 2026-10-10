@@ -12,6 +12,9 @@
                @input="onInput"
                :placeholder="placeholder"
                :autocomplete="autocomplete"
+               :min="min"
+               :max="max"
+               :step="step"
                class="input input-bordered w-full"/>
         <textarea v-else
             :id="name"
@@ -68,6 +71,18 @@ export default defineComponent({
         },
         autocomplete: {
             type: String,
+            default: null,
+        },
+        min: {
+            type: [String, Number],
+            default: null,
+        },
+        max: {
+            type: [String, Number],
+            default: null,
+        },
+        step: {
+            type: [String, Number],
             default: null,
         },
     },

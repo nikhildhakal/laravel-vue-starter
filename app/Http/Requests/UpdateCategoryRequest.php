@@ -23,7 +23,11 @@ class UpdateCategoryRequest extends BaseRequest
             }
         }
 
-        $normalized['slug'] = Str::slug((string) ($this->input('slug') ?: $this->input('name')));
+        /** @var Category $category */
+        $category = $this->route('category');
+        $normalized['slug'] = $this->filled('slug')
+            ? Str::slug((string) $this->input('slug'))
+            : $category->slug;
         $this->merge($normalized);
     }
 
@@ -58,7 +62,9 @@ class UpdateCategoryRequest extends BaseRequest
                 'mimes:jpg,jpeg,png,webp',
                 'extensions:jpg,jpeg,png,webp',
                 'max:5120',
+                Rule::prohibitedIf(fn (): bool => $this->boolean('remove_image')),
             ],
+            'remove_image' => ['sometimes', 'boolean'],
             'featured' => ['required', 'boolean'],
             'is_active' => ['required', 'boolean'],
             'sort_order' => ['required', 'integer', 'min:0'],

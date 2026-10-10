@@ -10,7 +10,7 @@
 
 <script>
 
-import {computed, defineComponent, ref} from "vue";
+import {computed, defineComponent, ref, watch} from "vue";
 
 import SearchService from "@/services/SearchService";
 import Multiselect from 'vue-multiselect';
@@ -71,8 +71,12 @@ export default defineComponent({
     emits: ['update:modelValue', 'input'],
     setup(props, {emit}) {
 
-        let selectOptionsArr = ref(props.options);
+        let selectOptionsArr = ref([]);
         let isLoading = ref(false);
+
+        watch(() => props.options, (options) => {
+            selectOptionsArr.value = options || [];
+        }, {deep: true, immediate: true});
 
         const selectOptions = computed(() => {
             let val = [];

@@ -8,6 +8,7 @@ use App\Models\User;
 use Bouncer;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -99,9 +100,14 @@ class CategoryCrudTest extends TestCase
 
         $category = Category::query()->where('slug', 'fresh-produce')->firstOrFail();
 
-        $this->assertNotNull($category->image);
-        Storage::disk('public')->assertExists($category->image);
-        $response->assertJsonPath('record.image', Storage::disk('public')->url($category->image));
+        $media = $category->getFirstMedia('image');
+
+        $this->assertNull($category->image);
+        $this->assertNotNull($media);
+        Storage::disk('public')->assertExists($media->getPathRelativeToRoot());
+        Storage::disk('public')->assertExists($media->getPathRelativeToRoot('thumb'));
+        $response->assertJsonPath('record.image', $media->getUrl());
+        $response->assertJsonPath('record.image_thumb', $media->getUrl('thumb'));
 
         $this->assertDatabaseHas('categories', [
             'parent_id' => $parent->id,
@@ -195,11 +201,13 @@ class CategoryCrudTest extends TestCase
 
         $category->refresh();
 
-        $this->assertNotNull($category->image);
-        $this->assertNotSame($oldImagePath, $category->image);
+        $media = $category->getFirstMedia('image');
+
+        $this->assertNull($category->image);
+        $this->assertNotNull($media);
         Storage::disk('public')->assertMissing($oldImagePath);
-        Storage::disk('public')->assertExists($category->image);
-        $response->assertJsonPath('record.image', Storage::disk('public')->url($category->image));
+        Storage::disk('public')->assertExists($media->getPathRelativeToRoot());
+        $response->assertJsonPath('record.image', $media->getUrl());
     }
 
     public function test_category_cannot_be_moved_below_its_descendant(): void
@@ -250,6 +258,107 @@ class CategoryCrudTest extends TestCase
         $this->deleteJson("/api/categories/{$category->id}")->assertUnprocessable();
 
         $this->assertModelExists($category);
+    }
+
+    public function test_category_with_children_cannot_be_deleted(): void
+    {
+        $this->actingAsAdmin();
+        $category = Category::factory()->create();
+        Category::factory()->create(['parent_id' => $category->id]);
+
+        $this->deleteJson("/api/categories/{$category->id}")
+            ->assertUnprocessable()
+            ->assertJsonPath('message', trans('frontend.categories.validation.has_children'));
+
+        $this->assertModelExists($category);
+    }
+
+    public function test_database_restricts_deleting_a_category_with_children(): void
+    {
+        $category = Category::factory()->create();
+        Category::factory()->create(['parent_id' => $category->id]);
+
+        $this->expectException(QueryException::class);
+
+        $category->delete();
+    }
+
+    public function test_database_restricts_deleting_a_category_with_products(): void
+    {
+        $category = Category::factory()->create();
+        Product::factory()->for($category)->create();
+
+        $this->expectException(QueryException::class);
+
+        $category->delete();
+    }
+
+    public function test_category_record_abilities_are_scoped_to_the_bound_category(): void
+    {
+        $user = User::factory()->create();
+        $allowedCategory = Category::factory()->create();
+        $otherCategory = Category::factory()->create();
+        Bouncer::allow($user)->to('view', $allowedCategory);
+        Sanctum::actingAs($user);
+
+        $this->getJson("/api/categories/{$allowedCategory->id}")->assertOk();
+        $this->getJson("/api/categories/{$otherCategory->id}")->assertForbidden();
+    }
+
+    public function test_updating_without_a_slug_preserves_the_existing_slug(): void
+    {
+        $this->actingAsAdmin();
+        $category = Category::factory()->create(['slug' => 'stable-slug']);
+
+        $this->patchJson("/api/categories/{$category->id}", [
+            'name' => 'Renamed Category',
+            'featured' => false,
+            'is_active' => true,
+            'sort_order' => 0,
+        ])->assertOk()->assertJsonPath('record.slug', 'stable-slug');
+
+        $this->assertSame('stable-slug', $category->fresh()->slug);
+    }
+
+    public function test_admin_can_remove_a_category_image(): void
+    {
+        Storage::fake('public');
+        $this->actingAsAdmin();
+        $category = Category::factory()->create();
+        $category->addMedia(UploadedFile::fake()->image('category.jpg'))->toMediaCollection('image');
+        $mediaPath = $category->getFirstMedia('image')->getPathRelativeToRoot();
+
+        $this->patchJson("/api/categories/{$category->id}", [
+            'name' => $category->name,
+            'slug' => $category->slug,
+            'featured' => $category->featured,
+            'is_active' => $category->is_active,
+            'sort_order' => $category->sort_order,
+            'remove_image' => true,
+        ])->assertOk()->assertJsonPath('record.image', null);
+
+        $this->assertFalse($category->fresh()->hasMedia('image'));
+        Storage::disk('public')->assertMissing($mediaPath);
+    }
+
+    public function test_category_image_cannot_be_replaced_and_removed_together(): void
+    {
+        Storage::fake('public');
+        $this->actingAsAdmin();
+        $category = Category::factory()->create();
+
+        $this->post("/api/categories/{$category->id}", [
+            '_method' => 'PATCH',
+            'name' => $category->name,
+            'slug' => $category->slug,
+            'image' => UploadedFile::fake()->image('new.jpg'),
+            'remove_image' => '1',
+            'featured' => '0',
+            'is_active' => '1',
+            'sort_order' => '0',
+        ], ['Accept' => 'application/json'])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('image');
     }
 
     private function actingAsAdmin(): User

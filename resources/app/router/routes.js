@@ -9,6 +9,7 @@ import {default as PageProfile} from "@/views/pages/private/profile/Main";
 
 import {default as PageUsers} from "@/views/pages/private/users/Index";
 import {default as PageCategories} from "@/views/pages/private/categories/Index";
+import {default as PageProducts} from "@/views/pages/private/products/Index";
 import {default as PageComponents} from "@/views/pages/private/components/Main";
 
 import abilities from "@/stub/abilities";
@@ -58,6 +59,12 @@ const routes = [
                 path: "categories/list",
                 meta: {requiresAuth: true, requiresAbility: abilities.LIST_CATEGORY},
                 component: PageCategories,
+            },
+            {
+                name: "products.list",
+                path: "products/list",
+                meta: {requiresAuth: true, requiresAbility: abilities.LIST_PRODUCT},
+                component: PageProducts,
             },
         ]
     },

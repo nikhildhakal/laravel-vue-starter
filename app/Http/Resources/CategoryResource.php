@@ -16,6 +16,8 @@ class CategoryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $media = $this->getFirstMedia('image');
+
         return [
             'id' => $this->id,
             'parent_id' => $this->parent_id,
@@ -26,7 +28,8 @@ class CategoryResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'description' => $this->description,
-            'image' => $this->imageUrl(),
+            'image' => $media?->getUrl() ?: $this->legacyImageUrl(),
+            'image_thumb' => $media?->getUrl('thumb') ?: $this->legacyImageUrl(),
             'featured' => $this->featured,
             'is_active' => $this->is_active,
             'sort_order' => $this->sort_order,
@@ -37,7 +40,7 @@ class CategoryResource extends JsonResource
         ];
     }
 
-    private function imageUrl(): ?string
+    private function legacyImageUrl(): ?string
     {
         if (blank($this->image)) {
             return null;

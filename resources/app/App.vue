@@ -184,6 +184,14 @@ export default {
                     to: '/panel/categories/list',
                 },
                 {
+                    name: trans('global.pages.products'),
+                    icon: 'bookmark',
+                    showDesktop: true,
+                    showMobile: true,
+                    requiresAbility: getAbilitiesForRoute(['products.list']),
+                    to: '/panel/products/list',
+                },
+                {
                     name: trans('global.phrases.sign_out'),
                     icon: 'sign-out',
                     showDesktop: false,

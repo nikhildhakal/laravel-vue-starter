@@ -33,7 +33,7 @@ class Product extends Model implements HasMedia
         'featured',
         'is_active',
     ];
- 
+
     protected $attributes = [
         'quantity' => 0,
         'featured' => false,
@@ -104,6 +104,16 @@ class Product extends Model implements HasMedia
     {
         $this->addMediaConversion('thumb')
             ->fit(Fit::Crop, 300, 300)
+            ->performOnCollections('images')
+            ->nonQueued();
+
+        $this->addMediaConversion('medium')
+            ->fit(Fit::Max, 800, 800)
+            ->performOnCollections('images')
+            ->nonQueued();
+
+        $this->addMediaConversion('large')
+            ->fit(Fit::Max, 1600, 1600)
             ->performOnCollections('images')
             ->nonQueued();
     }

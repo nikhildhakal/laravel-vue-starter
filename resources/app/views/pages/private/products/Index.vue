@@ -106,8 +106,8 @@
                     <section>
                         <h4 class="font-semibold mb-3">{{ trans('products.labels.name') }}</h4>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <TextInput name="name" :required="true" v-model="drawer.form.name" :label="trans('products.labels.name')"/>
-                            <TextInput name="slug" v-model="drawer.form.slug" :label="trans('products.labels.slug')"/>
+                            <TextInput name="name" :required="true" v-model="drawer.form.name" @update:modelValue="updateSlug" :label="trans('products.labels.name')"/>
+                            <TextInput name="slug" :readonly="true" v-model="drawer.form.slug" :label="trans('products.labels.slug')"/>
                             <TextInput name="sku" v-model="drawer.form.sku" :label="trans('products.labels.sku')"/>
                             <Dropdown name="category" :required="true" :options="drawer.properties.categories" v-model="drawer.form.category" :label="trans('products.labels.category')"/>
                         </div>
@@ -373,6 +373,16 @@ export default defineComponent({
             };
         }
 
+        function updateSlug(name) {
+            drawer.form.slug = name
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .trim()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+        }
+
         function onDrawerSubmit() {
             const form = document.getElementById(formId.value);
             if (!form || !form.reportValidity()) return;
@@ -429,7 +439,7 @@ export default defineComponent({
         return {
             trans, page, table, drawer, formId, mainQuery, filterProperties,
             onTablePageChange, onTableAction, onTableSort, onPageAction, onFiltersClear,
-            closeDrawer, onDrawerSubmit, onGalleryFilesSelected, removeGalleryItem, moveGalleryItem,
+            closeDrawer, onDrawerSubmit, onGalleryFilesSelected, removeGalleryItem, moveGalleryItem, updateSlug,
         };
     },
 });

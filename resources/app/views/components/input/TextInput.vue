@@ -9,6 +9,7 @@
                :value="modelValue"
                :required="required"
                :disabled="disabled"
+               :readonly="readonly"
                @input="onInput"
                :placeholder="placeholder"
                :autocomplete="autocomplete"
@@ -21,6 +22,7 @@
             :value="modelValue"
             :required="required"
             :disabled="disabled"
+            :readonly="readonly"
             @input="onInput"
             :placeholder="placeholder"
             :autocomplete="autocomplete"
@@ -62,6 +64,10 @@ export default defineComponent({
             default: false,
         },
         disabled: {
+            type: Boolean,
+            default: false,
+        },
+        readonly: {
             type: Boolean,
             default: false,
         },

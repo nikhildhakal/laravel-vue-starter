@@ -104,8 +104,8 @@
 
             <div class="flex-grow overflow-y-auto p-6" v-if="!drawer.loading">
                 <form :id="formId" @submit.prevent="onDrawerSubmit">
-                    <TextInput class="mb-4" name="name" :required="true" v-model="drawer.form.name" :label="trans('categories.labels.name')"/>
-                    <TextInput class="mb-4" name="slug" v-model="drawer.form.slug" :label="trans('categories.labels.slug')"/>
+                    <TextInput class="mb-4" name="name" :required="true" v-model="drawer.form.name" @update:modelValue="updateSlug" :label="trans('categories.labels.name')"/>
+                    <TextInput class="mb-4" name="slug" :readonly="true" v-model="drawer.form.slug" :label="trans('categories.labels.slug')"/>
                     <Dropdown class="mb-4" name="parent" :options="drawer.parents" v-model="drawer.form.parent" :label="trans('categories.labels.parent')"/>
                     <TextInput class="mb-4" type="textarea" name="description" v-model="drawer.form.description" :label="trans('categories.labels.description')"/>
                     <div v-if="drawer.currentImage && !drawer.form.image && !drawer.form.remove_image" class="mb-3">
@@ -371,6 +371,16 @@ export default defineComponent({
             };
         }
 
+        function updateSlug(name) {
+            drawer.form.slug = name
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .trim()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+        }
+
         function onDrawerSubmit() {
             const form = document.getElementById(formId.value);
 
@@ -480,6 +490,7 @@ export default defineComponent({
             onFiltersClear,
             closeDrawer,
             onDrawerSubmit,
+            updateSlug,
         };
     },
 });

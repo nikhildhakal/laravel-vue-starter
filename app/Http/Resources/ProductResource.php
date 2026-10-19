@@ -40,13 +40,17 @@ class ProductResource extends JsonResource
             'is_active' => $this->is_active,
             'in_stock' => $this->quantity > 0,
             'image' => $cover?->getUrl() ?: $legacyImageUrl,
-            'image_thumb' => $cover?->getUrl('thumb') ?: $legacyImageUrl,
+            'image_thumb' => $cover?->getAvailableUrl(['thumb']) ?: $legacyImageUrl,
+            'image_medium' => $cover?->getAvailableUrl(['medium']) ?: $legacyImageUrl,
+            'image_large' => $cover?->getAvailableUrl(['large']) ?: $legacyImageUrl,
             'images' => $images
                 ->values()
                 ->map(fn (Media $media, int $index): array => [
                     'id' => $media->id,
                     'url' => $media->getUrl(),
-                    'thumb_url' => $media->getUrl('thumb'),
+                    'thumb_url' => $media->getAvailableUrl(['thumb']),
+                    'medium_url' => $media->getAvailableUrl(['medium']),
+                    'large_url' => $media->getAvailableUrl(['large']),
                     'name' => $media->name,
                     'order' => $index + 1,
                 ]),

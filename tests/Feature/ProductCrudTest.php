@@ -119,14 +119,27 @@ class ProductCrudTest extends TestCase
             ->assertOk()
             ->assertJsonPath('record.slug', 'raw-honey')
             ->assertJsonPath('record.images.0.name', 'back')
-            ->assertJsonPath('record.images.1.name', 'front');
+            ->assertJsonPath('record.images.1.name', 'front')
+            ->assertJsonStructure([
+                'record' => [
+                    'image_thumb',
+                    'image_medium',
+                    'image_large',
+                    'images' => [
+                        '*' => ['thumb_url', 'medium_url', 'large_url'],
+                    ],
+                ],
+            ]);
 
         $product = Product::query()->where('slug', 'raw-honey')->firstOrFail();
         $this->assertCount(2, $product->getMedia('images'));
 
         foreach ($product->getMedia('images') as $media) {
             Storage::disk('public')->assertExists($media->getPathRelativeToRoot());
-            Storage::disk('public')->assertExists($media->getPathRelativeToRoot('thumb'));
+
+            foreach (['thumb', 'medium', 'large'] as $conversion) {
+                Storage::disk('public')->assertExists($media->getPathRelativeToRoot($conversion));
+            }
         }
     }
 

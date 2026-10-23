@@ -3,6 +3,8 @@ import {default as PageRegister} from "@/views/pages/auth/register/Main";
 import {default as PageResetPassword} from "@/views/pages/auth/reset-password/Main";
 import {default as PageForgotPassword} from "@/views/pages/auth/forgot-password/Main";
 import {default as PageNotFound} from "@/views/pages/shared/404/Main";
+import {default as StorefrontLayout} from "@/views/layouts/Storefront";
+import {default as PageHome} from "@/views/pages/storefront/home/Main";
 
 import {default as PageDashboard} from "@/views/pages/private/dashboard/Main";
 import {default as PageProfile} from "@/views/pages/private/profile/Main";
@@ -16,10 +18,16 @@ import abilities from "@/stub/abilities";
 
 const routes = [
     {
-        name: "home",
         path: "/",
-        meta: {requiresAuth: false, isPublicAuthPage: true},
-        component: PageLogin,
+        component: StorefrontLayout,
+        children: [
+            {
+                name: "home",
+                path: "",
+                meta: {requiresAuth: false},
+                component: PageHome,
+            },
+        ],
     },
     {
         name: "panel",

@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Shopping Cart - Revonna Organics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary: #2a7d2e;
+            --primary-light: #3e9f44;
+            --primary-dark: #1e5c21;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9fafb;
+        }
+
+        .heading-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #d1d5db;
+            background-color: #f9fafb;
+            cursor: pointer;
+        }
+
+        .quantity-input {
+            width: 50px;
+            height: 30px;
+            text-align: center;
+            border-top: 1px solid #d1d5db;
+            border-bottom: 1px solid #d1d5db;
+            border-left: none;
+            border-right: none;
+        }
+
+        /* Mobile menu animation */
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .mobile-menu.open {
+            max-height: 500px;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background-color: #e5e7eb;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            background-color: var(--primary);
+            transition: width 0.5s ease;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 14px;
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="#" class="flex items-center">
+                    <div class="w-10 h-10 bg-green-700 rounded-full flex items-center justify-center text-white mr-2">
+                        <i class="fas fa-leaf text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-green-800 heading-font">Revonna</span>
+                </a>
+            </div>
+
+            <nav class="hidden lg:flex space-x-8">
+                <a href="#" class="text-gray-600 hover:text-green-800">Home</a>
+                <a href="#" class="text-gray-600 hover:text-green-800">Shop</a>
+                <a href="#" class="text-gray-600 hover:text-green-800">About</a>
+                <a href="#" class="text-gray-600 hover:text-green-800">Blog</a>
+                <a href="#" class="text-gray-600 hover:text-green-800">Contact</a>
+            </nav>
+
+            <div class="flex items-center space-x-4">
+                <button class="p-2 text-gray-600 hover:text-green-800">
+                    <i class="fas fa-search text-lg"></i>
+                </button>
+                <button class="p-2 text-gray-600 hover:text-green-800 relative">
+                    <i class="fas fa-heart text-lg"></i>
+                    <span class="absolute -top-1 -right-1 bg-green-800 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                </button>
+                <button class="p-2 text-gray-600 hover:text-green-800 relative">
+                    <i class="fas fa-shopping-cart text-lg"></i>
+                    <span class="absolute -top-1 -right-1 bg-green-800 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">5</span>
+                </button>
+                <button id="mobile-menu-button" class="lg:hidden p-2 text-gray-600">
+                    <i class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu lg:hidden bg-white border-t border-gray-200">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <a href="#" class="text-gray-600 hover:text-green-800 py-2">Home</a>
+                <a href="#" class="text-gray-600 hover:text-green-800 py-2">Shop</a>
+                <a href="#" class="text-gray-600 hover:text-green-800 py-2">About</a>
+                <a href="#" class="text-gray-600 hover:text-green-800 py-2">Blog</a>
+                <a href="#" class="text-gray-600 hover:text-green-800 py-2">Contact</a>
+                <div class="pt-2 border-t border-gray-200">
+                    <a href="#" class="text-gray-600 hover:text-green-800 py-2 flex items-center">
+                        <i class="fas fa-user-circle mr-2"></i> My Account
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Cart Hero Section -->
+    <section class="py-12 bg-green-50">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2 heading-font">Your Cart</h1>
+                    <p class="text-gray-600">Review and checkout your organic selections</p>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <a href="#" class="text-green-800 hover:underline flex items-center">
+                        <i class="fas fa-arrow-left mr-2"></i> Continue Shopping
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Free Shipping Progress -->
+    <section class="bg-white py-4 shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center">
+                <div class="mr-3 text-green-800">
+                    <i class="fas fa-truck text-lg"></i>
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between text-sm mb-1">
+                        <span class="font-medium">Only $27.06 away for free shipping!</span>
+                        <span>$72.94/$100</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 72.94%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Content -->
+    <section class="py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Cart Items -->
+                <div class="lg:w-2/3">
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                        <!-- Cart Table Header -->
+                        <div class="hidden md:grid grid-cols-12 bg-gray-50 px-6 py-3 border-b border-gray-200">
+                            <div class="col-span-5 font-medium text-gray-700">Product</div>
+                            <div class="col-span-2 font-medium text-gray-700 text-center">Price</div>
+                            <div class="col-span-3 font-medium text-gray-700 text-center">Quantity</div>
+                            <div class="col-span-2 font-medium text-gray-700 text-right">Subtotal</div>
+                        </div>
+
+                        <!-- Cart Item 1 -->
+                        <div class="p-4 md:p-6 border-b border-gray-200">
+                            <div class="flex flex-col md:flex-row md:items-center">
+                                <div class="flex items-start md:items-center md:w-5/12 mb-4 md:mb-0">
+                                    <button class="text-gray-400 hover:text-red-500 mr-4 mt-1 md:mt-0">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
+                                    <div class="flex items-center">
+                                        <img src="https://images.unsplash.com/photo-1615486364408-98f525d0a888?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" 
+                                             alt="Organic Honey" class="w-16 h-16 object-cover rounded-lg mr-4">
+                                        <div>
+                                            <h3 class="font-medium text-gray-800">Organic Raw Honey</h3>
+                                            <p class="text-gray-500 text-sm">16 oz jar</p>
+                                            <div class="flex items-center mt-1">
+                                                <span class="text-green-600 text-xs font-medium flex items-center">
+                                                    <i class="fas fa-check-circle mr-1"></i> In Stock
+                                                </span>
+                                                <span class="tooltip ml-2">
+                                                    <i class="fas fa-info-circle text-gray-400 text-xs"></i>
+                                                    <span class="tooltip-text">Usually ships within 1-2 business days</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="md:w-2/12 mb-4 md:mb-0 text-center">
+                                    <span class="md:hidden text-gray-600 text-sm">Price: </span>
+                                    <span class="text-gray-800 font-medium">$12.99</span>
+                                </div>
+                                <div class="md:w-3/12 mb-4 md:mb-0">
+                                    <div class="flex justify-center">
+                                        <div class="flex items-center">
+                                            <button class="quantity-btn rounded-l-md">-</button>
+                                            <input type="number" value="2" min="1" class="quantity-input">
+                                            <button class="quantity-btn rounded-r-md">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="md:w-2/12 text-right">
+                                    <span class="md:hidden text-gray-600 text-sm">Subtotal: </span>
+                                    <span class="text-gray-800 font-medium">$25.98</span>
+                                </div>
+                            </div>
+                            <div class="mt-3 flex justify-between items-center">
+                                <button class="text-green-800 hover:text-green-600 text-sm font-medium flex items-center">
+                                    <i class="far fa-bookmark mr-1"></i> Save for Later
+                                </button>
+                                <div class="text-sm text-gray-500">
+                                    <i class="fas fa-seedling mr-1"></i> Eco-friendly packaging
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cart Item 2 -->
+                        <div class="p-4 md:p-6 border-b border-gray-200">
+                            <div class="flex flex-col md:flex-row md:items-center">
+                                <div class="flex items-start md:items-center md:w-5/12 mb-4 md:mb-0">
+                                    <button class="text-gray-400 hover:text-red-500 mr-4 mt-1 md:mt-0">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
+                                    <div class="flex items-center">
+                                        <img src="https://images.unsplash.com/photo-1603569283847-aa6f0b557a1e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" 
+                                             alt="Organic Olive Oil" class="w-16 h-16 object-cover rounded-lg mr-4">
+                                        <div>
+                                            <h3 class="font-medium text-gray-800">Extra Virgin Olive Oil</h3>
+                                            <p class="text-gray-500 text-sm">500 ml bottle</p>
+                                            <div class="flex items-center mt-1">
+                                                <span class="text-green-800 text-xs font-medium bg-green-100 px-2 py-1 rounded-full mr-2">On Sale</span>
+                                                <span class="text-green-600 text-xs font-medium flex items-center">
+                                                    <i class="fas fa-check-circle mr-1"></i> In Stock
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="md:w-2/12 mb-4 md:mb-0 text-center">
+                                    <span class="md:hidden text-gray-600 text-sm">Price: </span>
+                                    <span class="text-gray-400 line-through mr-1">$24.99</span>
+                                    <span class="text-gray-800 font-medium">$19.99</span>
+                                </div>
+                                <div class="md:w-3/12 mb-4 md:mb-0">
+                                    <div class="flex justify-center">
+                                        <div class="flex items-center">
+                                            <button class="quantity-btn rounded-l-md">-</button>
+                                            <input type="number" value="1" min="1" class="quantity-input">
+                                            <button class="quantity-btn rounded-r-md">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="md:w-2/12 text-right">
+                                    <span class="md:hidden text-gray-600 text-sm">Subtotal: </span>
+                                    <span class="text-gray-800 font-medium">$19.99</span>
+                                </div>
+                            </div>
+                            <div class="mt-3 flex justify-between items-center">
+                                <button class="text-green-800 hover:text-green-600 text-sm font-medium flex items-center">
+                                    <i class="far fa-bookmark mr-1"></i> Save for Later
+                                </button>
+                                <div class="text-sm text-gray-500">
+                                    <i class="fas fa-recycle mr-1"></i> Recyclable packaging
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cart Item 3 -->
+                        <div class="p-4 md:p-6">
+                            <div class="flex flex-col md:flex-row md:items-center">
+                                <div class="flex items-start md:items-center md:w-5/12 mb-4 md:mb-0">
+                                    <button class="text-gray-400 hover:text-red-500 mr-4 mt-1 md:mt-0">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
+                                    <div class="flex items-center">
+                                        <img src="https://images.unsplash.com/photo-1603569296100-23c0b96a8f5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" 
+                                             alt="Organic Almonds" class="w-16 h-16 object-cover rounded-lg mr-4">
+                                        <div>
+                                            <h3 class="font-medium text-gray-800">Raw Organic Almonds</h3>
+                                            <p class="text-gray-500 text-sm">12 oz bag</p>
+                                            <div class="flex items-center mt-1">
+                                                <span class="text-yellow-600 text-xs font-medium flex items-center">
+                                                    <i class="fas fa-exclamation-circle mr-1"></i> Low Stock (3 left)
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="md:w-2/12 mb-4 md:mb-0 text-center">
+                                    <span class="md:hidden text-gray-600 text-sm">Price: </span>
+                                    <span class="text-gray-800 font-medium">$8.99</span>
+                                </div>
+                                <div class="md:w-3/12 mb-4 md:mb-0">
+                                    <div class="flex justify-center">
+                                        <div class="flex items-center">
+                                            <button class="quantity-btn rounded-l-md">-</button>
+                                            <input type="number" value="3" min="1" class="quantity-input">
+                                            <button class="quantity-btn rounded-r-md">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="md:w-2/12 text-right">
+                                    <span class="md:hidden text-gray-600 text-sm">Subtotal: </span>
+                                    <span class="text-gray-800 font-medium">$26.97</span>
+                                </div>
+                            </div>
+                            <div class="mt-3 flex justify-between items-center">
+                                <button class="text-green-800 hover:text-green-600 text-sm font-medium flex items-center">
+                                    <i class="far fa-bookmark mr-1"></i> Save for Later
+                                </button>
+                                <div class="text-sm text-gray-500">
+                                    <i class="fas fa-leaf mr-1"></i> Sustainably sourced
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Saved for Later Section -->
+                        <div class="p-4 md:p-6 bg-gray-50 border-t border-gray-200">
+                            <h4 class="font-bold text-gray-800 mb-3 flex items-center">
+                                <i class="far fa-bookmark mr-2 text-green-800"></i> Saved for Later (2 items)
+                            </h4>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Saved Item 1 -->
+                                <div class="flex items-center p-3 bg-white rounded-lg shadow-xs">
+                                    <img src="https://images.unsplash.com/photo-1519735777090-ec97162dc266?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" 
+                                         alt="Organic Tea" class="w-16 h-16 object-cover rounded-lg mr-3">
+                                    <div class="flex-1">
+                                        <h5 class="font-medium text-gray-800 text-sm">Organic Green Tea</h5>
+                                        <p class="text-gray-500 text-xs">20 tea bags</p>
+                                        <p class="text-green-800 font-bold text-sm">$6.99</p>
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <button class="text-green-800 hover:text-green-600 p-2">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-red-500 p-2">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Saved Item 2 -->
+                                <div class="flex items-center p-3 bg-white rounded-lg shadow-xs">
+                                    <img src="https://images.unsplash.com/photo-1617093727343-374698b1b08d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" 
+                                         alt="Organic Coffee" class="w-16 h-16 object-cover rounded-lg mr-3">
+                                    <div class="flex-1">
+                                        <h5 class="font-medium text-gray-800 text-sm">Organic Arabica Coffee</h5>
+                                        <p class="text-gray-500 text-xs">12 oz bag</p>
+                                        <p class="text-green-800 font-bold text-sm">$14.99</p>
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <button class="text-green-800 hover:text-green-600 p-2">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-red-500 p-2">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cart Actions -->
+                        <div class="p-4 md:p-6 bg-gray-50 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center">
+                            <div class="mb-4 sm:mb-0">
+                                <input type="text" placeholder="Coupon code" class="px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                <button class="btn-outline px-4 py-2 rounded-r-md font-medium -ml-1">
+                                    Apply Coupon
+                                </button>
+                            </div>
+                            <button class="btn-outline px-6 py-2 rounded-md font-medium">
+                                Update Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart Summary -->
+                <div class="lg:w-1/3">
+                    <div class="bg-white rounded-xl shadow-sm p-6 sticky top-24">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6 heading-font">Cart Totals</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="flex justify-between border-b border-gray-200 pb-4">
+                                <span class="text-gray-600">Subtotal</span>
+                                <span class="text-gray-800 font-medium">$72.94</span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-200 pb-4">
+                                <span class="text-gray-600">Shipping</span>
+                                <div>
+                                    <div class="flex items-center mb-1">
+                                        <input type="radio" id="free-shipping" name="shipping" checked class="mr-2 text-green-600">
+                                        <label for="free-shipping" class="text-gray-700">Free Shipping</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" id="express-shipping" name="shipping" class="mr-2 text-green-600">
+                                        <label for="express-shipping" class="text-gray-700">Express: $8.99</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-200 pb-4">
+                                <span class="text-gray-600">Tax</span>
+                                <span class="text-gray-800 font-medium">$5.84</span>
+                            </div>
+                            
+                            <!-- Gift Wrapping Option -->
+                            <div class="border-b border-gray-200 pb-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-gray-600">Gift Wrapping</span>
+                                    <span class="text-gray-800 font-medium">$4.99</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="gift-wrapping" class="mr-2 text-green-600 rounded">
+                                    <label for="gift-wrapping" class="text-gray-700 text-sm">Add eco-friendly gift wrapping with a personalized message</label>
+                                </div>
+                            </div>
+                            
+                            <!-- Donation Option -->
+                            <div class="border-b border-gray-200 pb-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-gray-600">Donation</span>
+                                    <span class="text-gray-800 font-medium">$0.00</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mb-2">Support our "Plant a Tree" initiative</p>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <button class="btn-outline py-1 px-2 rounded text-sm">$1</button>
+                                    <button class="btn-outline py-1 px-2 rounded text-sm">$3</button>
+                                    <button class="btn-outline py-1 px-2 rounded text-sm">$5</button>
+                                </div>
+                                <div class="mt-2">
+                                    <input type="text" placeholder="Custom amount" class="w-full px-3 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-green-500">
+                                </div>
+                            </div>
+                            
+                            <!-- Loyalty Points -->
+                            <div class="bg-green-50 p-3 rounded-lg">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-gray-700 font-medium">Loyalty Points</span>
+                                    <span class="text-green-800 font-bold">145 pts</span>
+                                </div>
+                                <p class="text-gray-600 text-xs">You'll earn <strong>72 points</strong> with this order ($1 = 1 point)</p>
+                                <div class="mt-2">
+                                    <input type="checkbox" id="use-points" class="mr-2 text-green-600 rounded">
+                                    <label for="use-points" class="text-gray-700 text-sm">Use 100 points for $10 discount</label>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-between pt-4">
+                                <span class="text-lg font-bold text-gray-800">Total</span>
+                                <span class="text-lg font-bold text-green-800">$78.78</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-primary w-full py-3 rounded-md font-medium mt-6">
+                            Proceed to Checkout
+                        </button>
+
+                        <div class="mt-6 border-t border-gray-200 pt-6">
+                            <h4 class="font-bold text-gray-800 mb-3">Secure Payment</h4>
+                            <div class="flex space-x-2">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/visa/visa-original.svg" alt="Visa" class="h-8">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mastercard/mastercard-original.svg" alt="Mastercard" class="h-8">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apple/apple-original.svg" alt="Apple Pay" class="h-8">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/paypal/paypal-original.svg" alt="PayPal" class="h-8">
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 p-4 bg-green-50 rounded-lg border border-green-100">
+                            <div class="flex items-start">
+                                <div class="text-green-800 mr-3 mt-1">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800 text-sm mb-1">Carbon Neutral Shipping</h4>
+                                    <p class="text-gray-600 text-xs">We offset the carbon emissions from shipping this order by supporting renewable energy projects.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recently Viewed -->
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold text-gray-800 mb-8 heading-font">Recently Viewed</h2>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Product 1 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                            alt="Organic Skincare Set" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2">
+                            <button class="bg-white rounded-full p-2 shadow-md text-gray-600 hover:text-green-800">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-800 mb-1">Organic Skincare Set</h3>
+                        <div class="rating-stars mb-2 text-sm text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="text-gray-500 text-xs ml-1">(42)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <p class="text-green-800 font-bold">$39.99</p>
+                            <button class="btn-primary px-3 py-1 rounded-md text-sm">
+                                <i class="fas fa-plus mr-1"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1617093727343-374698b1b08d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                            alt="Organic Coffee" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2">
+                            <button class="bg-white rounded-full p-2 shadow-md text-gray-600 hover:text-green-800">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-800 mb-1">Organic Arabica Coffee</h3>
+                        <div class="rating-stars mb-2 text-sm text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span class="text-gray-500 text-xs ml-1">(36)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <p class="text-green-800 font-bold">$14.99</p>
+                            <button class="btn-primary px-3 py-1 rounded-md text-sm">
+                                <i class="fas fa-plus mr-1"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                            alt="Organic Protein Powder" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2">
+                            <button class="bg-white rounded-full p-2 shadow-md text-gray-600 hover:text-green-800">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="absolute top-2 left-2">
+                            <span class="bg-green-800 text-white text-xs font-bold px-2 py-1 rounded-full">NEW</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-800 mb-1">Organic Protein Powder</h3>
+                        <div class="rating-stars mb-2 text-sm text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="text-gray-500 text-xs ml-1">(28)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <p class="text-green-800 font-bold">$29.99</p>
+                            <button class="btn-primary px-3 py-1 rounded-md text-sm">
+                                <i class="fas fa-plus mr-1"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                            alt="Organic Home" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2">
+                            <button class="bg-white rounded-full p-2 shadow-md text-gray-600 hover:text-green-800">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-800 mb-1">Organic Home Cleaner</h3>
+                        <div class="rating-stars mb-2 text-sm text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span class="text-gray-500 text-xs ml-1">(54)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <p class="text-green-800 font-bold">$12.99</p>
+                            <button class="btn-primary px-3 py-1 rounded-md text-sm">
+                                <i class="fas fa-plus mr-1"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-12 bg-green-800 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-2xl font-bold mb-4 heading-font">Join Our Organic Community</h2>
+            <p class="max-w-2xl mx-auto mb-6">Subscribe to our newsletter for exclusive offers, organic living tips, and 10% off your first order.</p>
+            <div class="max-w-md mx-auto flex">
+                <input type="email" placeholder="Your email address" class="flex-1 px-4 py-3 rounded-l-md focus:outline-none text-gray-800">
+                <button class="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-r-md font-medium">
+                    Subscribe
+                </button>
+            </div>
+            <p class="text-green-200 text-xs mt-3">We respect your privacy. Unsubscribe at any time.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-green-700 rounded-full flex items-center justify-center text-white mr-2">
+                            <i class="fas fa-leaf text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-white heading-font">Revonna</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">Committed to providing the highest quality organic products for a healthier you and a healthier planet.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Shop</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Customer Service</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">My Account</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Order Tracking</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Wishlist</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Shipping Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Returns & Refunds</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Contact Info</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-green-600"></i>
+                            <span>123 Organic Way, Portland, OR 97201</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-3 text-green-600"></i>
+                            <span>+1 (234) 567-8900</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3 text-green-600"></i>
+                            <span>hello@revonnaorganics.com</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-clock mr-3 text-green-600"></i>
+                            <span>Mon-Fri: 9AM - 6PM</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2023 Revonna Organics. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/visa/visa-original.svg" alt="Visa" class="h-8">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mastercard/mastercard-original.svg" alt="Mastercard" class="h-8">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazon/amazon-original.svg" alt="Amex" class="h-8">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/paypal/paypal-original.svg" alt="Paypal" class="h-8">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apple/apple-original.svg" alt="Apple Pay" class="h-8">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('open');
+        });
+
+        // Quantity adjustment functionality
+        document.querySelectorAll('.quantity-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const input = this.parentElement.querySelector('input');
+                let value = parseInt(input.value);
+                
+                if (this.textContent === '+' && value < 10) {
+                    input.value = value + 1;
+                } else if (this.textContent === '-' && value > 1) {
+                    input.value = value - 1;
+                }
+                
+                // In a real implementation, you would update cart totals here
+            });
+        });
+
+        // Remove item functionality
+        document.querySelectorAll('.fa-trash-alt').forEach(icon => {
+            icon.addEventListener('click', function() {
+                const item = this.closest('.border-b') || this.closest('.p-4');
+                item.remove();
+                
+                // In a real implementation, you would update cart totals here
+            });
+        });
+
+        // Donation buttons
+        document.querySelectorAll('.btn-outline').forEach(button => {
+            if (button.textContent.includes('$')) {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.btn-outline').forEach(btn => {
+                        if (btn.textContent.includes('$')) {
+                            btn.classList.remove('btn-primary');
+                            btn.classList.add('btn-outline');
+                        }
+                    });
+                    
+                    // Add active class to clicked button
+                    this.classList.remove('btn-outline');
+                    this.classList.add('btn-primary');
+                    
+                    // In a real implementation, you would update the donation amount here
+                });
+            }
+        });
+    </script>
+</body>
+</html>

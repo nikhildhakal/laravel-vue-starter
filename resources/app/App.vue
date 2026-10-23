@@ -1,5 +1,5 @@
 <template>
-    <div v-if="authStore.user && authStore.user.hasOwnProperty('id')" class="drawer lg:drawer-open">
+    <div v-if="route.meta.requiresAuth && authStore.user && authStore.user.hasOwnProperty('id')" class="drawer lg:drawer-open">
         <input id="main-drawer" type="checkbox" class="drawer-toggle" v-model="state.isMobileMenuOpen"/>
 
         <div class="drawer-content flex flex-col min-h-screen bg-base-200">
@@ -223,6 +223,7 @@ export default {
             state,
             authStore,
             globalStateStore,
+            route,
             isDark,
             toggleTheme,
             sidebarCollapsed,

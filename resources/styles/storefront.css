@@ -1,0 +1,280 @@
+.storefront {
+    --primary: #2a7d2e;
+    --primary-light: #3e9f44;
+    --primary-dark: #1e5c21;
+    --secondary: #f5a623;
+    --accent: #ff6b6b;
+}
+
+.storefront {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9fafb;
+    scroll-behavior: smooth;
+}
+
+.storefront .heading-font {
+    font-family: 'Playfair Display', serif;
+}
+
+.storefront .storefront-footer-logo {
+    filter: brightness(0) invert(1);
+}
+
+.storefront .hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 90vh;
+}
+
+.storefront .product-card {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.storefront .product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.storefront .category-card {
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.storefront .category-card:hover {
+    transform: translateY(-5px);
+}
+
+.storefront .category-card:hover img {
+    transform: scale(1.1);
+}
+
+.storefront .category-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.storefront .category-circle {
+    width: 130px;
+    height: 130px;
+    border-radius: 9999px;
+    overflow: hidden;
+    border: 3px solid white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.storefront .category-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.storefront .category-item:hover .category-circle {
+    border-color: var(--primary);
+    transform: translateY(-5px);
+}
+
+.storefront .category-item:hover .category-circle img {
+    transform: scale(1.1);
+}
+
+.storefront .category-title {
+    margin-top: 1rem;
+    font-weight: 600;
+    color: #1f2937;
+    transition: color 0.3s ease;
+}
+
+.storefront .category-item:hover .category-title {
+    color: var(--primary);
+}
+
+.storefront .newsletter-bg {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.storefront .rating-stars {
+    color: #fbbf24;
+}
+
+.storefront .btn-primary {
+    background-color: var(--primary);
+    transition: all 0.3s ease;
+}
+
+.storefront .btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.storefront .btn-secondary {
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    transition: all 0.3s ease;
+}
+
+.storefront .btn-secondary:hover {
+    background-color: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.storefront .btn-alt {
+    border: 2px solid white;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.storefront .btn-alt:hover {
+    background-color: var(--primary);
+    border: 2px solid var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.storefront .nav-link {
+    position: relative;
+}
+
+.storefront .nav-link:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--primary);
+    transition: width 0.3s ease;
+}
+
+.storefront .nav-link:hover:after {
+    width: 100%;
+}
+
+.storefront .nav-link.active:after {
+    width: 100%;
+}
+
+.storefront .feature-icon {
+    transition: all 0.3s ease;
+}
+
+.storefront .feature-box:hover .feature-icon {
+    transform: rotateY(180deg);
+    background-color: var(--primary);
+    color: white;
+}
+
+.storefront .testimonial-card {
+    transition: all 0.3s ease;
+}
+
+.storefront .testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.storefront .floating-label {
+    position: absolute;
+    pointer-events: none;
+    left: 15px;
+    top: 15px;
+    transition: 0.2s ease all;
+    color: #999;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+.storefront .newsletter-input:focus~.floating-label,
+.storefront .newsletter-input:not(:placeholder-shown)~.floating-label {
+    top: -10px;
+    left: 10px;
+    font-size: 12px;
+    background: white;
+    padding: 0 5px;
+    color: var(--primary);
+}
+
+.storefront .scroll-down {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0) translateX(-50%);
+    }
+
+    40% {
+        transform: translateY(-20px) translateX(-50%);
+    }
+
+    60% {
+        transform: translateY(-10px) translateX(-50%);
+    }
+}
+
+.storefront .mobile-menu {
+    transition: all 0.3s ease;
+    transform: translateX(100%);
+}
+
+.storefront .mobile-menu.active {
+    transform: translateX(0);
+}
+
+.storefront .splide__arrow {
+    background: var(--primary) !important;
+    opacity: 1 !important;
+}
+
+.storefront .splide__arrow svg {
+    fill: white !important;
+}
+
+.storefront .splide__pagination__page.is-active {
+    background: var(--primary) !important;
+}
+
+.storefront .parallax-bg {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.storefront .floating {
+    animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}

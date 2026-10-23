@@ -1,0 +1,1760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revonna Organics - Pure Organic Products</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary: #2a7d2e;
+            --primary-light: #3e9f44;
+            --primary-dark: #1e5c21;
+            --secondary: #f5a623;
+            --accent: #ff6b6b;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9fafb;
+            scroll-behavior: smooth;
+        }
+
+        .heading-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 90vh;
+        }
+
+        .product-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .category-card {
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .newsletter-bg {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .rating-stars {
+            color: #fbbf24;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-alt {
+            border: 2px solid white;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-alt:hover {
+            background-color: var(--primary);
+            border: 2px solid var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .nav-link.active:after {
+            width: 100%;
+        }
+
+        .feature-icon {
+            transition: all 0.3s ease;
+        }
+
+        .feature-box:hover .feature-icon {
+            transform: rotateY(180deg);
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .testimonial-card {
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .floating-label {
+            position: absolute;
+            pointer-events: none;
+            left: 15px;
+            top: 15px;
+            transition: 0.2s ease all;
+            color: #999;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+
+        .newsletter-input:focus~.floating-label,
+        .newsletter-input:not(:placeholder-shown)~.floating-label {
+            top: -10px;
+            left: 10px;
+            font-size: 12px;
+            background: white;
+            padding: 0 5px;
+            color: var(--primary);
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0) translateX(-50%);
+            }
+
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+
+        .mobile-menu {
+            transition: all 0.3s ease;
+            transform: translateX(100%);
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .splide__arrow {
+            background: var(--primary) !important;
+            opacity: 1 !important;
+        }
+
+        .splide__arrow svg {
+            fill: white !important;
+        }
+
+        .splide__pagination__page.is-active {
+            background: var(--primary) !important;
+        }
+
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Top Bar -->
+    <div class="bg-gradient-to-r from-green-800 to-green-700 text-white py-2 px-4 shadow-sm">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div class="flex space-x-4 text-sm mb-2 md:mb-0">
+                <span class="flex items-center"><i class="fas fa-phone-alt mr-2 text-green-300"></i> +1 (234)
+                    567-8900</span>
+                <span class="flex items-center"><i class="fas fa-envelope mr-2 text-green-300"></i>
+                    hello@revonnaorganics.com</span>
+            </div>
+            <div class="flex space-x-4">
+                <span class="text-xs md:text-sm">Free shipping on orders over $50</span>
+                <div class="hidden md:flex space-x-3 ml-4">
+                    <a href="#" class="hover:text-green-300 transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-green-300 transition"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-green-300 transition"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="hover:text-green-300 transition"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="#" class="flex items-center">
+                    <div class="w-10 h-10 bg-green-700 rounded-full flex items-center justify-center text-white mr-2">
+                        <i class="fas fa-leaf text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-green-800 heading-font">Revonna</span>
+                </a>
+            </div>
+
+            <nav class="hidden lg:flex space-x-1">
+                <!-- Categories Dropdown -->
+                <div class="relative group">
+                    <button class="nav-link px-4 py-3 text-gray-600 hover:text-green-800 flex items-center">
+                        <span>Categories</span>
+                        <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                    </button>
+                    <div
+                        class="absolute left-0 mt-0 w-64 bg-white shadow-lg rounded-md z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                        <div class="grid grid-cols-2 gap-4 p-4">
+                            <!-- Food Categories -->
+                            <div>
+                                <h4 class="font-bold text-green-800 mb-2 border-b pb-1">Organic Foods</h4>
+                                <ul class="space-y-2">
+                                    <li><a href="#" class="text-gray-600 hover:text-green-800 text-sm">Fresh Fruits</a>
+                                    </li>
+                                    <li><a href="#" class="text-gray-600 hover:text-green-800 text-sm">Vegetables</a>
+                                    </li>
+                                    <li><a href="#" class="text-gray-600 hover:text-green-800 text-sm">Dairy & Milks</a>
+                                    </li>
+                                    <li><a href="#" class="text-gray-600 hover:text-green-800 text-sm">Baking
+                                            Materials</a></li>
+                                    <li><a href="#" class="text-gray-600 hover:text-green-800 text-sm">Grains &
+                                            Cereals</a></li>
+                                </ul>
+                            </div>
+
+                            <!-- Non-Food Categories -->
+                            <div>
+                                <h4 class="font-bold text-green-800 mb-2 border-b pb-1">Wellness</h4>
+                                <ul class="space-y-2">
+                                    <li><a href="#" class="text-gray-600 hover:text-green-800 text-sm">Beauty &
+                                            Skincare</a></li>
+                                    <li><a href="#" class="text-gray-600 hover:text-green-800 text-sm">Supplements</a>
+                                    </li>
+                                    <li><a href="#" class="text-gray-600 hover:text-green-800 text-sm">Home
+                                            Essentials</a></li>
+                                    <li><a href="#" class="text-gray-600 hover:text-green-800 text-sm">Pet Care</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="#" class="nav-link px-4 py-3 text-gray-600 hover:text-green-800">Shop</a>
+                <a href="#" class="nav-link px-4 py-3 text-gray-600 hover:text-green-800">About</a>
+                <a href="#" class="nav-link px-4 py-3 text-gray-600 hover:text-green-800">Blog</a>
+                <a href="#" class="nav-link px-4 py-3 text-gray-600 hover:text-green-800">Contact</a>
+            </nav>
+
+            <button id="mobile-menu-button" class="lg:hidden p-3 text-gray-600 focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Content -->
+    <!-- Mobile Menu Overlay and Content -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+    <div id="mobile-menu"
+        class="fixed inset-y-0 right-0 w-4/5 max-w-sm bg-white z-50 shadow-xl transform translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto">
+        <div class="p-6 h-full flex flex-col">
+            <!-- Close Button -->
+            <button id="mobile-menu-close" class="self-end p-2 text-gray-600 hover:text-green-800 mb-6">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+
+            <!-- Menu Content -->
+            <nav class="flex-grow">
+                <ul class="space-y-4">
+                    <li><a href="#"
+                            class="block py-2 text-lg font-medium text-gray-800 hover:text-green-700 border-b border-gray-100">Home</a>
+                    </li>
+                    <li><a href="#"
+                            class="block py-2 text-lg font-medium text-gray-800 hover:text-green-700 border-b border-gray-100">Shop</a>
+                    </li>
+                    <li><a href="#"
+                            class="block py-2 text-lg font-medium text-gray-800 hover:text-green-700 border-b border-gray-100">About
+                            Us</a></li>
+                    <li><a href="#"
+                            class="block py-2 text-lg font-medium text-gray-800 hover:text-green-700 border-b border-gray-100">Blog</a>
+                    </li>
+                    <li><a href="#"
+                            class="block py-2 text-lg font-medium text-gray-800 hover:text-green-700 border-b border-gray-100">Contact</a>
+                    </li>
+                </ul>
+
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <div class="flex space-x-4 justify-center">
+                        <a href="#" class="text-gray-600 hover:text-green-800"><i
+                                class="fab fa-facebook-f text-xl"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-green-800"><i
+                                class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-green-800"><i
+                                class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-green-800"><i
+                                class="fab fa-pinterest text-xl"></i></a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section flex items-center relative">
+        <div class="container mx-auto px-4 text-white">
+            <div class="max-w-3xl">
+                <span
+                    class="bg-green-700 bg-opacity-80 text-white px-4 py-2 rounded-full text-sm mb-4 inline-block">100%
+                    Organic Certified</span>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 heading-font leading-tight">Pure Organic
+                    Products for Healthy Living</h1>
+                <p class="text-lg md:text-xl mb-8">Discover our handpicked selection of certified organic food and
+                    non-food products that nourish your body and soul.</p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <button
+                        class="btn-primary px-8 py-4 rounded-lg font-medium text-lg flex items-center justify-center">
+                        Shop Now <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                    <button
+                        class="btn-secondary px-8 py-4 rounded-lg font-medium text-lg flex items-center justify-center">
+                        Learn More <i class="fas fa-info-circle ml-2"></i>
+                    </button>
+                    <button class="btn-alt px-8 py-4 rounded-lg font-medium text-lg flex items-center justify-center">
+                        Shop <i class="fas fa-basket-shopping ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <a href="#features" class="scroll-down text-white text-2xl">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </section>
+
+    <!-- Categories Grid Section -->
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2 heading-font">Browse All Categories</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Explore our wide range of organic products</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Dairy Category -->
+                <a href="#"
+                    class="category-card bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                            alt="Dairy Products" class="w-full h-full object-cover transition duration-500">
+                        <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+                            <h3 class="text-white text-xl font-bold">Milks & Dairy</h3>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <ul class="text-gray-600 text-sm space-y-1">
+                            <li class="hover:text-green-800">Organic Milk</li>
+                            <li class="hover:text-green-800">Cheeses</li>
+                            <li class="hover:text-green-800">Yogurts</li>
+                            <li class="hover:text-green-800">Butter & Ghee</li>
+                        </ul>
+                    </div>
+                </a>
+
+                <!-- Wines & Drinks -->
+                <a href="#"
+                    class="category-card bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"
+                            alt="Wines & Drinks" class="w-full h-full object-cover transition duration-500">
+                        <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+                            <h3 class="text-white text-xl font-bold">Wines & Drinks</h3>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <ul class="text-gray-600 text-sm space-y-1">
+                            <li class="hover:text-green-800">Organic Wines</li>
+                            <li class="hover:text-green-800">Fresh Juices</li>
+                            <li class="hover:text-green-800">Herbal Teas</li>
+                            <li class="hover:text-green-800">Sparkling Waters</li>
+                        </ul>
+                    </div>
+                </a>
+
+                <!-- Fresh Produce -->
+                <a href="#"
+                    class="category-card bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"
+                            alt="Fresh Produce" class="w-full h-full object-cover transition duration-500">
+                        <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+                            <h3 class="text-white text-xl font-bold">Fresh Produce</h3>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <ul class="text-gray-600 text-sm space-y-1">
+                            <li class="hover:text-green-800">Fruits</li>
+                            <li class="hover:text-green-800">Vegetables</li>
+                            <li class="hover:text-green-800">Herbs</li>
+                            <li class="hover:text-green-800">Seasonal Specials</li>
+                        </ul>
+                    </div>
+                </a>
+
+                <!-- Pantry Staples -->
+                <a href="#"
+                    class="category-card bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                            alt="Pantry Staples" class="w-full h-full object-cover transition duration-500">
+                        <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+                            <h3 class="text-white text-xl font-bold">Pantry Staples</h3>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <ul class="text-gray-600 text-sm space-y-1">
+                            <li class="hover:text-green-800">Grains & Cereals</li>
+                            <li class="hover:text-green-800">Oils & Vinegars</li>
+                            <li class="hover:text-green-800">Spices</li>
+                            <li class="hover:text-green-800">Baking Needs</li>
+                        </ul>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="text-green-700 font-medium mb-2 inline-block">Our Products</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3 heading-font">Featured Products</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Our carefully selected organic products that promote wellness
+                    and sustainability</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Product 1 -->
+                <div class="product-card bg-white rounded-xl overflow-hidden shadow-md relative">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1615486364408-98f525d0a888?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                            alt="Organic Honey" class="w-full h-64 object-cover transition duration-500">
+                        <div class="absolute top-3 right-3 flex flex-col space-y-2">
+                            <span
+                                class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full">NEW</span>
+                            <span class="bg-red-100 text-red-800 text-xs font-bold px-3 py-1 rounded-full">-15%</span>
+                        </div>
+                        <button
+                            class="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-white text-green-800 px-4 py-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition duration-300 flex items-center">
+                            <i class="fas fa-eye mr-2"></i> Quick View
+                        </button>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-gray-800 text-lg">Raw Organic Honey</h3>
+                            <div>
+                                <span class="text-green-800 font-bold text-lg">$12.99</span>
+                                <span class="text-gray-400 line-through text-sm block">$15.99</span>
+                            </div>
+                        </div>
+                        <div class="rating-stars mb-3">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="text-gray-500 text-sm ml-1">(48)</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Pure, unfiltered honey from local organic beekeepers</p>
+                        <div class="flex space-x-2">
+                            <button
+                                class="flex-1 bg-green-800 hover:bg-green-700 text-white py-2 rounded-md transition duration-300 flex items-center justify-center">
+                                <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                            </button>
+                            <button
+                                class="w-10 h-10 border border-gray-200 rounded-md flex items-center justify-center text-gray-600 hover:bg-gray-100 transition">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card bg-white rounded-xl overflow-hidden shadow-md relative">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1603569283847-aa6f0b557a1e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"
+                            alt="Organic Olive Oil" class="w-full h-64 object-cover transition duration-500">
+                        <div class="absolute top-3 right-3">
+                            <span class="bg-red-100 text-red-800 text-xs font-bold px-3 py-1 rounded-full">SALE</span>
+                        </div>
+                        <button
+                            class="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-white text-green-800 px-4 py-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition duration-300 flex items-center">
+                            <i class="fas fa-eye mr-2"></i> Quick View
+                        </button>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-gray-800 text-lg">Extra Virgin Olive Oil</h3>
+                            <div>
+                                <span class="text-green-800 font-bold text-lg">$19.99</span>
+                                <span class="text-gray-400 line-through text-sm block">$24.99</span>
+                            </div>
+                        </div>
+                        <div class="rating-stars mb-3">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span class="text-gray-500 text-sm ml-1">(36)</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Cold-pressed from organic olives in Greece</p>
+                        <div class="flex space-x-2">
+                            <button
+                                class="flex-1 bg-green-800 hover:bg-green-700 text-white py-2 rounded-md transition duration-300 flex items-center justify-center">
+                                <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                            </button>
+                            <button
+                                class="w-10 h-10 border border-gray-200 rounded-md flex items-center justify-center text-gray-600 hover:bg-gray-100 transition">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card bg-white rounded-xl overflow-hidden shadow-md relative">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1603569296100-23c0b96a8f5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                            alt="Organic Almonds" class="w-full h-64 object-cover transition duration-500">
+                        <button
+                            class="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-white text-green-800 px-4 py-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition duration-300 flex items-center">
+                            <i class="fas fa-eye mr-2"></i> Quick View
+                        </button>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-gray-800 text-lg">Raw Organic Almonds</h3>
+                            <span class="text-green-800 font-bold text-lg">$8.99</span>
+                        </div>
+                        <div class="rating-stars mb-3">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span class="text-gray-500 text-sm ml-1">(72)</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">California grown, non-GMO, packed with nutrients</p>
+                        <div class="flex space-x-2">
+                            <button
+                                class="flex-1 bg-green-800 hover:bg-green-700 text-white py-2 rounded-md transition duration-300 flex items-center justify-center">
+                                <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                            </button>
+                            <button
+                                class="w-10 h-10 border border-gray-200 rounded-md flex items-center justify-center text-gray-600 hover:bg-gray-100 transition">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card bg-white rounded-xl overflow-hidden shadow-md relative">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"
+                            alt="Organic Skincare Set" class="w-full h-64 object-cover transition duration-500">
+                        <div class="absolute top-3 right-3">
+                            <span
+                                class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full">BESTSELLER</span>
+                        </div>
+                        <button
+                            class="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-white text-green-800 px-4 py-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition duration-300 flex items-center">
+                            <i class="fas fa-eye mr-2"></i> Quick View
+                        </button>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-gray-800 text-lg">Organic Skincare Set</h3>
+                            <span class="text-green-800 font-bold text-lg">$39.99</span>
+                        </div>
+                        <div class="rating-stars mb-3">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="text-gray-500 text-sm ml-1">(124)</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Complete facial care with natural ingredients</p>
+                        <div class="flex space-x-2">
+                            <button
+                                class="flex-1 bg-green-800 hover:bg-green-700 text-white py-2 rounded-md transition duration-300 flex items-center justify-center">
+                                <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                            </button>
+                            <button
+                                class="w-10 h-10 border border-gray-200 rounded-md flex items-center justify-center text-gray-600 hover:bg-gray-100 transition">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <button class="btn-secondary px-8 py-3 rounded-lg font-medium text-lg">
+                    View All Products <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Banner Section -->
+    <section class="py-12 bg-green-800 text-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-2xl font-bold mb-2 heading-font">Subscribe & Get 10% Off</h3>
+                    <p class="text-green-200">Join our newsletter and get exclusive discounts on your first order</p>
+                </div>
+                <form class="flex w-full md:w-auto">
+                    <input type="email" placeholder="Your email address"
+                        class="px-4 py-3 rounded-l-md text-gray-800 w-full focus:outline-none">
+                    <button type="submit"
+                        class="bg-green-700 hover:bg-green-600 px-6 py-3 rounded-r-md font-medium transition">
+                        Subscribe
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Three Column Product Listing Section -->
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Column 1: Trending Products -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-6 pb-2 border-b border-gray-200 heading-font">Trending
+                        Products</h3>
+                    <div class="space-y-4">
+                        <!-- Product 1 -->
+                        <div class="flex items-center gap-4 hover:bg-gray-50 p-2 rounded-lg transition">
+                            <img src="https://images.unsplash.com/photo-1615485296279-0165a4d36e26?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&h=200&q=80"
+                                alt="Organic Chocolate" class="w-16 h-16 object-cover rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-gray-800">Dark Organic Chocolate</h4>
+                                <div class="rating-stars text-yellow-400 text-xs mb-1">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <p class="text-green-700 font-bold">$7.99</p>
+                            </div>
+                        </div>
+
+                        <!-- Product 2 -->
+                        <div class="flex items-center gap-4 hover:bg-gray-50 p-2 rounded-lg transition">
+                            <img src="https://images.unsplash.com/photo-1617093727343-374698b1b08d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&h=200&q=80"
+                                alt="Organic Coffee" class="w-16 h-16 object-cover rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-gray-800">Arabica Coffee</h4>
+                                <div class="rating-stars text-yellow-400 text-xs mb-1">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <p class="text-green-700 font-bold">$12.99</p>
+                            </div>
+                        </div>
+
+                        <!-- Product 3 -->
+                        <div class="flex items-center gap-4 hover:bg-gray-50 p-2 rounded-lg transition">
+                            <img src="https://images.unsplash.com/photo-1603569283847-aa6f0b557a1e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&h=200&q=80"
+                                alt="Olive Oil" class="w-16 h-16 object-cover rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-gray-800">Extra Virgin Olive Oil</h4>
+                                <div class="rating-stars text-yellow-400 text-xs mb-1">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p class="text-green-700 font-bold">$19.99</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2: Recently Added -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-6 pb-2 border-b border-gray-200 heading-font">Recently
+                        Added</h3>
+                    <div class="space-y-4">
+                        <!-- Product 1 -->
+                        <div class="flex items-center gap-4 hover:bg-gray-50 p-2 rounded-lg transition">
+                            <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&h=200&q=80"
+                                alt="Granola" class="w-16 h-16 object-cover rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-gray-800">Organic Granola</h4>
+                                <div class="rating-stars text-yellow-400 text-xs mb-1">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <p class="text-green-700 font-bold">$8.99</p>
+                            </div>
+                        </div>
+
+                        <!-- Product 2 -->
+                        <div class="flex items-center gap-4 hover:bg-gray-50 p-2 rounded-lg transition">
+                            <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&h=200&q=80"
+                                alt="Yogurt" class="w-16 h-16 object-cover rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-gray-800">Greek Yogurt</h4>
+                                <div class="rating-stars text-yellow-400 text-xs mb-1">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <p class="text-green-700 font-bold">$4.99</p>
+                            </div>
+                        </div>
+
+                        <!-- Product 3 -->
+                        <div class="flex items-center gap-4 hover:bg-gray-50 p-2 rounded-lg transition">
+                            <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&h=200&q=80"
+                                alt="Wine" class="w-16 h-16 object-cover rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-gray-800">Organic Red Wine</h4>
+                                <div class="rating-stars text-yellow-400 text-xs mb-1">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <p class="text-green-700 font-bold">$24.99</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 3: Top Rated Products -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-6 pb-2 border-b border-gray-200 heading-font">Top
+                        Rated</h3>
+                    <div class="space-y-4">
+                        <!-- Product 1 -->
+                        <div class="flex items-center gap-4 hover:bg-gray-50 p-2 rounded-lg transition">
+                            <img src="https://images.unsplash.com/photo-1615486364408-98f525d0a888?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&h=200&q=80"
+                                alt="Honey" class="w-16 h-16 object-cover rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-gray-800">Raw Organic Honey</h4>
+                                <div class="rating-stars text-yellow-400 text-xs mb-1">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p class="text-green-700 font-bold">$12.99</p>
+                            </div>
+                        </div>
+
+                        <!-- Product 2 -->
+                        <div class="flex items-center gap-4 hover:bg-gray-50 p-2 rounded-lg transition">
+                            <img src="https://images.unsplash.com/photo-1603569296100-23c0b96a8f5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&h=200&q=80"
+                                alt="Almonds" class="w-16 h-16 object-cover rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-gray-800">Organic Almonds</h4>
+                                <div class="rating-stars text-yellow-400 text-xs mb-1">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p class="text-green-700 font-bold">$8.99</p>
+                            </div>
+                        </div>
+
+                        <!-- Product 3 -->
+                        <div class="flex items-center gap-4 hover:bg-gray-50 p-2 rounded-lg transition">
+                            <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&h=200&q=80"
+                                alt="Skincare" class="w-16 h-16 object-cover rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-gray-800">Organic Skincare Set</h4>
+                                <div class="rating-stars text-yellow-400 text-xs mb-1">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <p class="text-green-700 font-bold">$39.99</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-10 bg-green-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="text-green-700 font-medium mb-2 inline-block">Why Choose Us</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3 heading-font">Our Organic Promise</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">We're committed to bringing you the purest organic products
+                    with exceptional service</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                <!-- Feature 1 -->
+                <div
+                    class="feature-box bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-green-100">
+                    <div
+                        class="feature-icon bg-green-100 p-3 rounded-full mb-4 text-green-800 text-xl w-12 h-12 flex items-center justify-center mx-auto">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2 text-center">100% Organic</h3>
+                    <p class="text-gray-600 text-sm text-center">Certified organic products with no artificial additives
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div
+                    class="feature-box bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-green-100">
+                    <div
+                        class="feature-icon bg-green-100 p-3 rounded-full mb-4 text-green-800 text-xl w-12 h-12 flex items-center justify-center mx-auto">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2 text-center">Free Shipping</h3>
+                    <p class="text-gray-600 text-sm text-center">On all orders over $50 within the US</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div
+                    class="feature-box bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-green-100">
+                    <div
+                        class="feature-icon bg-green-100 p-3 rounded-full mb-4 text-green-800 text-xl w-12 h-12 flex items-center justify-center mx-auto">
+                        <i class="fas fa-undo"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2 text-center">Easy Returns</h3>
+                    <p class="text-gray-600 text-sm text-center">30-day return policy for all products</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div
+                    class="feature-box bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-green-100">
+                    <div
+                        class="feature-icon bg-green-100 p-3 rounded-full mb-4 text-green-800 text-xl w-12 h-12 flex items-center justify-center mx-auto">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2 text-center">24/7 Support</h3>
+                    <p class="text-gray-600 text-sm text-center">Dedicated customer service team</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parallax Banner -->
+    <section class="py-24 bg-fixed parallax-bg"
+        style="background-image: url('https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+        <div class="container mx-auto px-4 text-center text-white">
+            <div class="max-w-2xl mx-auto bg-black bg-opacity-50 p-8 rounded-xl backdrop-blur-sm">
+                <span class="text-green-300 font-medium mb-2 inline-block">Healthy Living</span>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 heading-font">Nourish Your Body Naturally</h2>
+                <p class="text-lg mb-6">Our organic products are carefully sourced to provide the highest quality
+                    nutrition for you and your family.</p>
+                <button class="btn-primary px-8 py-3 rounded-lg font-medium text-lg">
+                    Discover More <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Products -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="text-green-700 font-medium mb-2 inline-block">Customer Favorites</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3 heading-font">Popular Products</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Our customers' favorite organic products</p>
+            </div>
+
+            <!-- Splide Slider -->
+            <div class="splide" aria-label="Popular Products">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <!-- Product 1 -->
+                        <li class="splide__slide px-2">
+                            <div class="product-card bg-white rounded-xl overflow-hidden shadow-md h-full">
+                                <div class="relative overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1603569296100-23c0b96a8f5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                                        alt="Organic Quinoa" class="w-full h-64 object-cover transition duration-500">
+                                </div>
+                                <div class="p-5">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <h3 class="font-bold text-gray-800 text-lg">Organic Quinoa</h3>
+                                        <span class="text-green-800 font-bold text-lg">$6.99</span>
+                                    </div>
+                                    <div class="rating-stars mb-3">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                        <span class="text-gray-500 text-sm ml-1">(89)</span>
+                                    </div>
+                                    <p class="text-gray-600 text-sm mb-4">High-protein ancient grain from Peru</p>
+                                    <button
+                                        class="w-full bg-green-800 hover:bg-green-700 text-white py-2 rounded-md transition duration-300">
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- Product 2 -->
+                        <li class="splide__slide px-2">
+                            <div class="product-card bg-white rounded-xl overflow-hidden shadow-md h-full">
+                                <div class="relative overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1615486364408-98f525d0a888?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                                        alt="Organic Tea" class="w-full h-64 object-cover transition duration-500">
+                                </div>
+                                <div class="p-5">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <h3 class="font-bold text-gray-800 text-lg">Organic Green Tea</h3>
+                                        <span class="text-green-800 font-bold text-lg">$9.99</span>
+                                    </div>
+                                    <div class="rating-stars mb-3">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <span class="text-gray-500 text-sm ml-1">(67)</span>
+                                    </div>
+                                    <p class="text-gray-600 text-sm mb-4">Antioxidant-rich leaves from Japan</p>
+                                    <button
+                                        class="w-full bg-green-800 hover:bg-green-700 text-white py-2 rounded-md transition duration-300">
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- Product 3 -->
+                        <li class="splide__slide px-2">
+                            <div class="product-card bg-white rounded-xl overflow-hidden shadow-md h-full">
+                                <div class="relative overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1603569283847-aa6f0b557a1e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"
+                                        alt="Organic Coconut Oil"
+                                        class="w-full h-64 object-cover transition duration-500">
+                                    <div class="absolute top-3 right-3">
+                                        <span
+                                            class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full">BESTSELLER</span>
+                                    </div>
+                                </div>
+                                <div class="p-5">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <h3 class="font-bold text-gray-800 text-lg">Organic Coconut Oil</h3>
+                                        <span class="text-green-800 font-bold text-lg">$14.99</span>
+                                    </div>
+                                    <div class="rating-stars mb-3">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span class="text-gray-500 text-sm ml-1">(142)</span>
+                                    </div>
+                                    <p class="text-gray-600 text-sm mb-4">Cold-pressed virgin oil from Sri Lanka</p>
+                                    <button
+                                        class="w-full bg-green-800 hover:bg-green-700 text-white py-2 rounded-md transition duration-300">
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- Product 4 -->
+                        <li class="splide__slide px-2">
+                            <div class="product-card bg-white rounded-xl overflow-hidden shadow-md h-full">
+                                <div class="relative overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                                        alt="Organic Protein Powder"
+                                        class="w-full h-64 object-cover transition duration-500">
+                                </div>
+                                <div class="p-5">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <h3 class="font-bold text-gray-800 text-lg">Organic Protein Powder</h3>
+                                        <span class="text-green-800 font-bold text-lg">$29.99</span>
+                                    </div>
+                                    <div class="rating-stars mb-3">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                        <span class="text-gray-500 text-sm ml-1">(56)</span>
+                                    </div>
+                                    <p class="text-gray-600 text-sm mb-4">Plant-based protein with 5 superfoods</p>
+                                    <button
+                                        class="w-full bg-green-800 hover:bg-green-700 text-white py-2 rounded-md transition duration-300">
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- Product 5 -->
+                        <li class="splide__slide px-2">
+                            <div class="product-card bg-white rounded-xl overflow-hidden shadow-md h-full">
+                                <div class="relative overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                                        alt="Organic Spices" class="w-full h-64 object-cover transition duration-500">
+                                </div>
+                                <div class="p-5">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <h3 class="font-bold text-gray-800 text-lg">Organic Spices Set</h3>
+                                        <span class="text-green-800 font-bold text-lg">$24.99</span>
+                                    </div>
+                                    <div class="rating-stars mb-3">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <span class="text-gray-500 text-sm ml-1">(34)</span>
+                                    </div>
+                                    <p class="text-gray-600 text-sm mb-4">12 essential spices for your kitchen</p>
+                                    <button
+                                        class="w-full bg-green-800 hover:bg-green-700 text-white py-2 rounded-md transition duration-300">
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Offers Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="text-green-700 font-medium mb-2 inline-block">Limited Time Offers</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3 heading-font">Special Discounts</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Don't miss these exclusive deals on our premium organic
+                    products</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Product 1 -->
+                <div
+                    class="product-card bg-white rounded-xl overflow-hidden shadow-md border border-gray-100 hover:border-green-200 transition-all duration-300">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1617093727343-374698b1b08d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                            alt="Organic Coffee" class="w-full h-64 object-cover transition duration-500">
+                        <div class="absolute top-3 left-3">
+                            <span class="bg-red-100 text-red-800 text-xs font-bold px-3 py-1 rounded-full">-20%
+                                OFF</span>
+                        </div>
+                        <button
+                            class="absolute top-3 right-3 w-10 h-10 bg-white rounded-full flex items-center justify-center text-gray-600 hover:text-green-800 shadow-md transition">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="font-bold text-gray-800 text-lg">Organic Arabica Coffee</h3>
+                                <span class="text-gray-500 text-sm">500g Ground Coffee</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-green-800 font-bold text-lg">$14.99</span>
+                                <span class="text-gray-400 line-through text-sm block">$18.99</span>
+                            </div>
+                        </div>
+                        <div class="rating-stars mb-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span class="text-gray-500 text-sm ml-1">(87)</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button
+                                class="flex-1 bg-green-800 hover:bg-green-700 text-white py-3 rounded-md transition duration-300 flex items-center justify-center">
+                                <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                            </button>
+                            <button
+                                class="w-12 h-12 border border-gray-200 rounded-md flex items-center justify-center text-gray-600 hover:bg-gray-100 transition">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div
+                    class="product-card bg-white rounded-xl overflow-hidden shadow-md border border-gray-100 hover:border-green-200 transition-all duration-300">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1615485296279-0165a4d36e26?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                            alt="Organic Chocolate" class="w-full h-64 object-cover transition duration-500">
+                        <div class="absolute top-3 left-3">
+                            <span
+                                class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full">BESTSELLER</span>
+                        </div>
+                        <button
+                            class="absolute top-3 right-3 w-10 h-10 bg-white rounded-full flex items-center justify-center text-gray-600 hover:text-green-800 shadow-md transition">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="font-bold text-gray-800 text-lg">Dark Organic Chocolate</h3>
+                                <span class="text-gray-500 text-sm">85% Cocoa, 200g Bar</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-green-800 font-bold text-lg">$7.99</span>
+                            </div>
+                        </div>
+                        <div class="rating-stars mb-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="text-gray-500 text-sm ml-1">(124)</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button
+                                class="flex-1 bg-green-800 hover:bg-green-700 text-white py-3 rounded-md transition duration-300 flex items-center justify-center">
+                                <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                            </button>
+                            <button
+                                class="w-12 h-12 border border-gray-200 rounded-md flex items-center justify-center text-gray-600 hover:bg-gray-100 transition">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div
+                    class="product-card bg-white rounded-xl overflow-hidden shadow-md border border-gray-100 hover:border-green-200 transition-all duration-300">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80"
+                            alt="Organic Granola" class="w-full h-64 object-cover transition duration-500">
+                        <div class="absolute top-3 left-3">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full">NEW</span>
+                        </div>
+                        <button
+                            class="absolute top-3 right-3 w-10 h-10 bg-white rounded-full flex items-center justify-center text-gray-600 hover:text-green-800 shadow-md transition">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="font-bold text-gray-800 text-lg">Organic Granola Mix</h3>
+                                <span class="text-gray-500 text-sm">With Nuts & Berries, 500g</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-green-800 font-bold text-lg">$9.99</span>
+                            </div>
+                        </div>
+                        <div class="rating-stars mb-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span class="text-gray-500 text-sm ml-1">(56)</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button
+                                class="flex-1 bg-green-800 hover:bg-green-700 text-white py-3 rounded-md transition duration-300 flex items-center justify-center">
+                                <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                            </button>
+                            <button
+                                class="w-12 h-12 border border-gray-200 rounded-md flex items-center justify-center text-gray-600 hover:bg-gray-100 transition">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <button class="btn-secondary px-8 py-3 rounded-lg font-medium text-lg">
+                    View All Deals <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="text-green-700 font-medium mb-2 inline-block">Testimonials</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3 heading-font">What Our Customers Say</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Hear from people who have experienced the Revonna Organics
+                    difference</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card bg-gray-50 p-8 rounded-xl hover:shadow-lg">
+                    <div class="rating-stars mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-700 mb-6 italic">"I've been shopping with Revonna Organics for over a year now
+                        and their products have transformed my family's health. The quality is exceptional and their
+                        customer service is outstanding."</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Johnson"
+                            class="w-12 h-12 rounded-full mr-4 object-cover">
+                        <div>
+                            <h4 class="font-bold">Sarah Johnson</h4>
+                            <p class="text-gray-600 text-sm">Verified Customer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card bg-gray-50 p-8 rounded-xl hover:shadow-lg">
+                    <div class="rating-stars mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-700 mb-6 italic">"As someone with sensitive skin, finding organic products that
+                        work has been challenging. Revonna's skincare line is gentle yet effective. I'm a customer for
+                        life!"</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen"
+                            class="w-12 h-12 rounded-full mr-4 object-cover">
+                        <div>
+                            <h4 class="font-bold">Michael Chen</h4>
+                            <p class="text-gray-600 text-sm">Verified Customer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card bg-gray-50 p-8 rounded-xl hover:shadow-lg">
+                    <div class="rating-stars mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="text-gray-700 mb-6 italic">"The organic groceries from Revonna are consistently fresh and
+                        delicious. Their commitment to sustainability aligns with my values. Highly recommend their
+                        seasonal produce boxes!"</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emily Rodriguez"
+                            class="w-12 h-12 rounded-full mr-4 object-cover">
+                        <div>
+                            <h4 class="font-bold">Emily Rodriguez</h4>
+                            <p class="text-gray-600 text-sm">Verified Customer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-20 newsletter-bg text-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 heading-font">Join Our Organic Community</h2>
+                <p class="text-xl mb-8">Subscribe to our newsletter for exclusive offers, new product alerts, and
+                    wellness tips delivered straight to your inbox.</p>
+
+                <form class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto relative">
+                    <input type="email" placeholder=" "
+                        class="newsletter-input px-5 py-4 rounded-lg text-gray-800 w-full focus:outline-none focus:ring-2 focus:ring-green-600">
+                    <label class="floating-label">Your email address</label>
+                    <button type="submit"
+                        class="btn-primary px-8 py-4 rounded-lg font-medium text-lg whitespace-nowrap">
+                        Subscribe <i class="fas fa-paper-plane ml-2"></i>
+                    </button>
+                </form>
+
+                <p class="text-sm mt-4 text-gray-300">We respect your privacy. Unsubscribe at any time.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Preview -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="text-green-700 font-medium mb-2 inline-block">From Our Blog</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3 heading-font">Organic Living Tips</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Learn more about organic lifestyle and healthy eating</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Blog Post 1 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1547592180-85f173990554?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                            alt="Organic Farming"
+                            class="w-full h-full object-cover transition duration-500 hover:scale-105">
+                    </div>
+                    <div class="p-6">
+                        <span class="text-green-700 text-sm font-medium">Organic Farming</span>
+                        <h3 class="font-bold text-xl my-2">Benefits of Organic Farming for the Environment</h3>
+                        <p class="text-gray-600 text-sm mb-4">Discover how organic farming practices help preserve our
+                            planet for future generations.</p>
+                        <a href="#" class="text-green-800 font-medium text-sm hover:underline flex items-center">
+                            Read More <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Blog Post 2 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2053&q=80"
+                            alt="Healthy Eating"
+                            class="w-full h-full object-cover transition duration-500 hover:scale-105">
+                    </div>
+                    <div class="p-6">
+                        <span class="text-green-700 text-sm font-medium">Nutrition</span>
+                        <h3 class="font-bold text-xl my-2">5 Superfoods You Should Add to Your Diet</h3>
+                        <p class="text-gray-600 text-sm mb-4">These nutrient-packed foods can boost your health and
+                            energy levels naturally.</p>
+                        <a href="#" class="text-green-800 font-medium text-sm hover:underline flex items-center">
+                            Read More <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Blog Post 3 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                            alt="Skincare" class="w-full h-full object-cover transition duration-500 hover:scale-105">
+                    </div>
+                    <div class="p-6">
+                        <span class="text-green-700 text-sm font-medium">Beauty</span>
+                        <h3 class="font-bold text-xl my-2">The Benefits of Organic Skincare Products</h3>
+                        <p class="text-gray-600 text-sm mb-4">Why switching to organic skincare can transform your
+                            complexion and overall health.</p>
+                        <a href="#" class="text-green-800 font-medium text-sm hover:underline flex items-center">
+                            Read More <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <button class="btn-secondary px-8 py-3 rounded-lg font-medium text-lg">
+                    View All Articles <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instagram Feed -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2 heading-font">Follow Us @RevonnaOrganics</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Tag us in your photos for a chance to be featured!</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-1">
+                <a href="#" class="group relative overflow-hidden h-40">
+                    <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"
+                        alt="Instagram post"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <div
+                        class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                        <i class="fab fa-instagram text-white text-2xl"></i>
+                    </div>
+                </a>
+                <a href="#" class="group relative overflow-hidden h-40">
+                    <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"
+                        alt="Instagram post"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <div
+                        class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                        <i class="fab fa-instagram text-white text-2xl"></i>
+                    </div>
+                </a>
+                <a href="#" class="group relative overflow-hidden h-40">
+                    <img src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                        alt="Instagram post"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <div
+                        class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                        <i class="fab fa-instagram text-white text-2xl"></i>
+                    </div>
+                </a>
+                <a href="#" class="group relative overflow-hidden h-40">
+                    <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80"
+                        alt="Instagram post"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <div
+                        class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                        <i class="fab fa-instagram text-white text-2xl"></i>
+                    </div>
+                </a>
+                <a href="#" class="group relative overflow-hidden h-40">
+                    <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                        alt="Instagram post"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <div
+                        class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                        <i class="fab fa-instagram text-white text-2xl"></i>
+                    </div>
+                </a>
+                <a href="#" class="group relative overflow-hidden h-40">
+                    <img src="https://images.unsplash.com/photo-1547592180-85f173990554?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                        alt="Instagram post"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <div
+                        class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                        <i class="fab fa-instagram text-white text-2xl"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+                <!-- Column 1 -->
+                <div class="lg:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="w-10 h-10 bg-green-700 rounded-full flex items-center justify-center text-white mr-3">
+                            <i class="fas fa-leaf text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-white heading-font">Revonna</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">Committed to providing the highest quality organic products for a
+                        healthier you and a healthier planet.</p>
+                    <div class="flex space-x-4">
+                        <a href="#"
+                            class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-gray-300 hover:bg-green-700 hover:text-white transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-gray-300 hover:bg-green-700 hover:text-white transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-gray-300 hover:bg-green-700 hover:text-white transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-gray-300 hover:bg-green-700 hover:text-white transition">
+                            <i class="fab fa-pinterest"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Shop</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3 -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Customer Service</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">My Account</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Order Tracking</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Wishlist</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Shipping Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Returns & Refunds</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4 -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Contact Info</h3>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-green-600"></i>
+                            <span>123 Organic Way, Portland, OR 97201</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-3 text-green-600"></i>
+                            <span>+1 (234) 567-8900</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3 text-green-600"></i>
+                            <span>hello@revonnaorganics.com</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-clock mr-3 text-green-600"></i>
+                            <span>Mon-Fri: 9AM - 6PM</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2023 Revonna Organics. All rights reserved.</p>
+                <div class="flex space-x-4">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/visa/visa-original.svg" alt="Visa"
+                        class="h-8">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mastercard/mastercard-original.svg"
+                        alt="Mastercard" class="h-8">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apple/apple-original.svg"
+                        alt="Apple Pay" class="h-8">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/paypal/paypal-original.svg"
+                        alt="Paypal" class="h-8">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg"
+                        alt="Google Pay" class="h-8">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top"
+        class="fixed bottom-8 right-8 bg-green-700 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 invisible transition-all duration-300">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+
+    <script>
+        // Mobile Menu Functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuButton = document.getElementById('mobile-menu-button');
+            const menuClose = document.getElementById('mobile-menu-close');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const overlay = document.getElementById('mobile-menu-overlay');
+
+            function openMenu() {
+                mobileMenu.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            }
+
+            function closeMenu() {
+                mobileMenu.classList.add('translate-x-full');
+                overlay.classList.add('hidden');
+                document.body.style.overflow = ''; // Re-enable scrolling
+            }
+
+            // Event Listeners
+            if (menuButton && mobileMenu) {
+                menuButton.addEventListener('click', openMenu);
+                menuClose.addEventListener('click', closeMenu);
+                overlay.addEventListener('click', closeMenu);
+            }
+
+            // Close menu when clicking links (optional)
+            const menuLinks = mobileMenu.querySelectorAll('a');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            // Close on ESC key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && !mobileMenu.classList.contains('translate-x-full')) {
+                    closeMenu();
+                }
+            });
+        });
+
+        // Initialize Splide slider
+        new Splide('.splide', {
+            type: 'loop',
+            perPage: 4,
+            perMove: 1,
+            gap: '1rem',
+            pagination: false,
+            breakpoints: {
+                1024: {
+                    perPage: 3,
+                },
+                768: {
+                    perPage: 2,
+                },
+                640: {
+                    perPage: 1,
+                }
+            }
+        }).mount();
+
+        // Back to top button
+        const backToTopButton = document.getElementById('back-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.remove('opacity-100', 'visible');
+                backToTopButton.classList.add('opacity-0', 'invisible');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Product card hover effect
+        const productCards = document.querySelectorAll('.product-card');
+        productCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+            });
+        });
+
+        // Newsletter form submission
+        const newsletterForm = document.querySelector('form');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const email = this.querySelector('input[type="email"]').value;
+                // Here you would typically send the email to your server
+                alert(`Thank you for subscribing with ${email}!`);
+                this.reset();
+            });
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,3 +1,4 @@
+@import "./storefront.css";
 @import "tailwindcss";
 @plugin "daisyui" {
     themes: light --default, dark;

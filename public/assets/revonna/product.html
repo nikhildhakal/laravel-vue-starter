@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organic Raw Honey - Revonna Organics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary: #2a7d2e;
+            --primary-light: #3e9f44;
+            --primary-dark: #1e5c21;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9fafb;
+        }
+
+        .heading-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .rating-stars {
+            color: #fbbf24;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .thumbnail:hover {
+            border-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-button.active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Header (same as your existing header) -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="#" class="flex items-center">
+                    <div class="w-10 h-10 bg-green-700 rounded-full flex items-center justify-center text-white mr-2">
+                        <i class="fas fa-leaf text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-green-800 heading-font">Revonna</span>
+                </a>
+            </div>
+
+            <nav class="hidden lg:flex space-x-8">
+                <a href="#" class="text-gray-600 hover:text-green-800">Home</a>
+                <a href="#" class="text-gray-600 hover:text-green-800">Shop</a>
+                <a href="#" class="text-gray-600 hover:text-green-800">About</a>
+                <a href="#" class="text-gray-600 hover:text-green-800">Blog</a>
+                <a href="#" class="text-gray-600 hover:text-green-800">Contact</a>
+            </nav>
+
+            <div class="flex items-center space-x-4">
+                <button class="p-2 text-gray-600 hover:text-green-800">
+                    <i class="fas fa-search text-lg"></i>
+                </button>
+                <button class="p-2 text-gray-600 hover:text-green-800 relative">
+                    <i class="fas fa-heart text-lg"></i>
+                    <span class="absolute -top-1 -right-1 bg-green-800 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                </button>
+                <button class="p-2 text-gray-600 hover:text-green-800 relative">
+                    <i class="fas fa-shopping-cart text-lg"></i>
+                    <span class="absolute -top-1 -right-1 bg-green-800 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">5</span>
+                </button>
+                <button class="lg:hidden p-2 text-gray-600">
+                    <i class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Product Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <!-- Breadcrumbs -->
+            <div class="text-sm text-gray-600 mb-6">
+                <a href="#" class="hover:text-green-800">Home</a> / 
+                <a href="#" class="hover:text-green-800">Shop</a> / 
+                <a href="#" class="hover:text-green-800">Honey & Sweeteners</a> / 
+                <span class="text-green-800">Organic Raw Honey</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Product Images -->
+                <div>
+                    <div class="mb-4 rounded-lg overflow-hidden">
+                        <img id="main-image" src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1280&q=80" 
+                             alt="Organic Raw Honey" class="w-full h-auto rounded-lg">
+                    </div>
+                    <div class="grid grid-cols-4 gap-3">
+                        <div class="thumbnail cursor-pointer border-2 border-transparent rounded-lg overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" 
+                                 alt="Honey thumbnail 1" class="w-full h-20 object-cover" onclick="changeImage(this)">
+                        </div>
+                        <div class="thumbnail cursor-pointer border-2 border-transparent rounded-lg overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" 
+                                 alt="Honey thumbnail 2" class="w-full h-20 object-cover" onclick="changeImage(this)">
+                        </div>
+                        <div class="thumbnail cursor-pointer border-2 border-transparent rounded-lg overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" 
+                                 alt="Honey thumbnail 3" class="w-full h-20 object-cover" onclick="changeImage(this)">
+                        </div>
+                        <div class="thumbnail cursor-pointer border-2 border-transparent rounded-lg overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" 
+                                 alt="Honey thumbnail 4" class="w-full h-20 object-cover" onclick="changeImage(this)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Details -->
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2 heading-font">Organic Raw Honey</h1>
+                    <div class="flex items-center mb-4">
+                        <div class="rating-stars mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="text-gray-600 text-sm">(48 reviews)</span>
+                        <span class="mx-2 text-gray-400">|</span>
+                        <span class="text-green-700 text-sm font-medium"><i class="fas fa-check-circle mr-1"></i> In Stock</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <span class="text-2xl font-bold text-green-800">$12.99</span>
+                        <span class="text-gray-400 line-through ml-2">$15.99</span>
+                        <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded-full ml-3">Save 20%</span>
+                    </div>
+
+                    <p class="text-gray-700 mb-6">Pure, unfiltered raw honey sourced from local organic beekeepers. This golden nectar is packed with natural enzymes, antioxidants, and vitamins, with no additives or processing.</p>
+
+                    <div class="mb-6">
+                        <h3 class="font-bold text-gray-800 mb-2">Size:</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <button class="px-4 py-2 border border-gray-300 rounded-md hover:border-green-600 hover:bg-green-50">8 oz</button>
+                            <button class="px-4 py-2 border border-green-600 bg-green-50 text-green-800 rounded-md font-medium">16 oz</button>
+                            <button class="px-4 py-2 border border-gray-300 rounded-md hover:border-green-600 hover:bg-green-50">32 oz</button>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <h3 class="font-bold text-gray-800 mb-2">Quantity:</h3>
+                        <div class="flex items-center">
+                            <button class="w-10 h-10 border border-gray-300 rounded-l-md flex items-center justify-center text-gray-600 hover:bg-gray-100">-</button>
+                            <input type="number" value="1" min="1" class="w-16 h-10 border-t border-b border-gray-300 text-center">
+                            <button class="w-10 h-10 border border-gray-300 rounded-r-md flex items-center justify-center text-gray-600 hover:bg-gray-100">+</button>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                        <button class="btn-primary px-8 py-3 rounded-md font-medium text-lg flex-1 flex items-center justify-center">
+                            <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                        </button>
+                        <button class="btn-outline px-8 py-3 rounded-md font-medium text-lg flex-1 flex items-center justify-center">
+                            <i class="far fa-heart mr-2"></i> Wishlist
+                        </button>
+                    </div>
+
+                    <div class="border-t border-b border-gray-200 py-4 mb-6">
+                        <div class="flex flex-wrap gap-4 text-sm">
+                            <div class="flex items-center">
+                                <i class="fas fa-truck text-green-700 mr-2"></i>
+                                <span>Free shipping on orders $50+</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-undo text-green-700 mr-2"></i>
+                                <span>30-day returns</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-certificate text-green-700 mr-2"></i>
+                                <span>USDA Organic Certified</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Tabs -->
+            <div class="mt-16">
+                <div class="border-b border-gray-200 mb-8">
+                    <div class="flex flex-wrap -mb-px">
+                        <button class="tab-button mr-8 py-3 px-1 font-medium text-gray-600 hover:text-green-800 active" data-tab="description">Description</button>
+                        <button class="tab-button mr-8 py-3 px-1 font-medium text-gray-600 hover:text-green-800" data-tab="details">Details</button>
+                        <button class="tab-button mr-8 py-3 px-1 font-medium text-gray-600 hover:text-green-800" data-tab="reviews">Reviews (48)</button>
+                    </div>
+                </div>
+
+                <div id="description" class="tab-content active">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 heading-font">About Our Organic Raw Honey</h3>
+                    <p class="text-gray-700 mb-4">Our raw honey is harvested directly from the hive, strained to remove debris, and bottled without any pasteurization or filtering. This preserves all the natural enzymes, antioxidants, and phytonutrients that make raw honey a true superfood.</p>
+                    <p class="text-gray-700 mb-4">Sourced from local organic beekeepers who practice sustainable beekeeping methods, our honey comes from bees that forage on wildflowers, giving it a unique, complex flavor profile that changes slightly with each batch.</p>
+                    <ul class="list-disc pl-5 text-gray-700 space-y-2 mb-4">
+                        <li>Never heated above 105°F to preserve nutrients</li>
+                        <li>No additives or preservatives</li>
+                        <li>Rich in antioxidants and enzymes</li>
+                        <li>Naturally antibacterial and antifungal</li>
+                        <li>Great for sweetening teas, baking, or direct consumption</li>
+                    </ul>
+                </div>
+
+                <div id="details" class="tab-content">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 heading-font">Product Details</h3>
+                    <table class="w-full text-gray-700">
+                        <tr class="border-b border-gray-200">
+                            <td class="py-3 font-medium w-1/3">Weight</td>
+                            <td class="py-3">16 oz (1 lb)</td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <td class="py-3 font-medium">Ingredients</td>
+                            <td class="py-3">100% pure raw honey</td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <td class="py-3 font-medium">Origin</td>
+                            <td class="py-3">California, USA</td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <td class="py-3 font-medium">Certifications</td>
+                            <td class="py-3">USDA Organic, Non-GMO Project Verified</td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <td class="py-3 font-medium">Shelf Life</td>
+                            <td class="py-3">2 years (does not expire)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-medium">Storage</td>
+                            <td class="py-3">Store at room temperature, away from direct sunlight</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="reviews" class="tab-content">
+                    <h3 class="text-xl font-bold text-gray-800 mb-6 heading-font">Customer Reviews</h3>
+                    <div class="bg-gray-50 p-6 rounded-lg mb-6">
+                        <div class="flex items-center mb-4">
+                            <div class="rating-stars mr-2">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="font-medium">Excellent quality</span>
+                        </div>
+                        <p class="text-gray-700 mb-2">This is the best honey I've ever tasted! The flavor is so rich and complex, completely different from store-bought honey. I use it in my tea every morning.</p>
+                        <p class="text-sm text-gray-500">- Sarah J. on March 15, 2023</p>
+                    </div>
+
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="rating-stars mr-2">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="font-medium">Great product</span>
+                        </div>
+                        <p class="text-gray-700 mb-2">Love that this is raw and organic. The texture is perfect - not too thick, not too runny. The only reason I didn't give 5 stars is that the jar could be a bit larger for the price.</p>
+                        <p class="text-sm text-gray-500">- Michael T. on February 28, 2023</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold text-gray-800 mb-8 heading-font">You May Also Like</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Product 1 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1603569283847-aa6f0b557a1e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                            alt="Organic Olive Oil" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800 mb-1">Extra Virgin Olive Oil</h3>
+                        <div class="rating-stars mb-2 text-sm">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <p class="text-green-800 font-bold">$19.99</p>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1603569296100-23c0b96a8f5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                            alt="Organic Almonds" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800 mb-1">Raw Organic Almonds</h3>
+                        <div class="rating-stars mb-2 text-sm">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-green-800 font-bold">$8.99</p>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                            alt="Organic Skincare Set" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800 mb-1">Organic Skincare Set</h3>
+                        <div class="rating-stars mb-2 text-sm">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="text-green-800 font-bold">$39.99</p>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1617093727343-374698b1b08d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                            alt="Organic Coffee" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800 mb-1">Organic Arabica Coffee</h3>
+                        <div class="rating-stars mb-2 text-sm">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <p class="text-green-800 font-bold">$14.99</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Product Features Section -->
+<section class="py-12 bg-white border-t border-gray-100">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Shipping Info -->
+            <div class="text-center p-6 rounded-lg bg-green-50">
+                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-800">
+                    <i class="fas fa-truck text-xl"></i>
+                </div>
+                <h3 class="font-bold text-lg mb-2">Fast & Free Shipping</h3>
+                <p class="text-gray-600">Free delivery on orders over $50. Ships within 1-2 business days.</p>
+            </div>
+
+            <!-- Quality Guarantee -->
+            <div class="text-center p-6 rounded-lg bg-green-50">
+                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-800">
+                    <i class="fas fa-award text-xl"></i>
+                </div>
+                <h3 class="font-bold text-lg mb-2">Quality Guaranteed</h3>
+                <p class="text-gray-600">100% organic certified. Not satisfied? 30-day money-back guarantee.</p>
+            </div>
+
+            <!-- Customer Support -->
+            <div class="text-center p-6 rounded-lg bg-green-50">
+                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-800">
+                    <i class="fas fa-headset text-xl"></i>
+                </div>
+                <h3 class="font-bold text-lg mb-2">24/7 Support</h3>
+                <p class="text-gray-600">Have questions? Our organic specialists are here to help anytime.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Frequently Bought Together -->
+<section class="py-12 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <h2 class="text-2xl font-bold text-gray-800 mb-8 heading-font">Frequently Bought Together</h2>
+        
+        <div class="bg-white rounded-xl shadow-sm p-6">
+            <div class="flex flex-col md:flex-row items-center gap-6">
+                <!-- Product 1 -->
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" 
+                             alt="Organic Honey" class="w-16 h-16 object-cover rounded-lg">
+                        <div class="absolute -top-2 -right-2 w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                            <input type="checkbox" checked class="w-4 h-4 text-green-600 rounded">
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-gray-800">Organic Raw Honey</h4>
+                        <p class="text-green-700 font-bold">$12.99</p>
+                    </div>
+                </div>
+                
+                <div class="text-gray-400">+</div>
+                
+                <!-- Product 2 -->
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1603569296100-23c0b96a8f5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" 
+                             alt="Organic Almonds" class="w-16 h-16 object-cover rounded-lg">
+                        <div class="absolute -top-2 -right-2 w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                            <input type="checkbox" checked class="w-4 h-4 text-green-600 rounded">
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-gray-800">Organic Almonds</h4>
+                        <p class="text-green-700 font-bold">$8.99</p>
+                    </div>
+                </div>
+                
+                <div class="text-gray-400">+</div>
+                
+                <!-- Product 3 -->
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1617093727343-374698b1b08d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" 
+                             alt="Organic Coffee" class="w-16 h-16 object-cover rounded-lg">
+                        <div class="absolute -top-2 -right-2 w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                            <input type="checkbox" class="w-4 h-4 text-green-600 rounded">
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-gray-800">Organic Coffee</h4>
+                        <p class="text-green-700 font-bold">$14.99</p>
+                    </div>
+                </div>
+                
+                <div class="md:ml-auto mt-4 md:mt-0">
+                    <div class="text-center mb-2">
+                        <span class="text-gray-600">Total:</span>
+                        <span class="text-xl font-bold text-green-800 ml-2">$36.97</span>
+                        <span class="text-gray-400 line-through ml-2">$42.97</span>
+                    </div>
+                    <button class="btn-primary px-6 py-2 rounded-md font-medium w-full">
+                        Add All to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Product FAQs -->
+<section class="py-12 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-2xl font-bold text-gray-800 mb-8 heading-font">Frequently Asked Questions</h2>
+        
+        <div class="space-y-4 max-w-3xl mx-auto">
+            <!-- FAQ 1 -->
+            <div class="border-b border-gray-200 pb-4">
+                <button class="faq-toggle flex justify-between items-center w-full text-left font-medium text-gray-800 hover:text-green-800">
+                    <span>Is this honey raw and unfiltered?</span>
+                    <i class="fas fa-chevron-down text-sm transition-transform duration-300"></i>
+                </button>
+                <div class="faq-content mt-2 text-gray-600 hidden">
+                    <p>Yes, our organic honey is completely raw and unfiltered. It's extracted from the hive, gently strained to remove any debris, and bottled without pasteurization or fine filtering to preserve all the natural enzymes, pollen, and health benefits.</p>
+                </div>
+            </div>
+            
+            <!-- FAQ 2 -->
+            <div class="border-b border-gray-200 pb-4">
+                <button class="faq-toggle flex justify-between items-center w-full text-left font-medium text-gray-800 hover:text-green-800">
+                    <span>How should I store my honey?</span>
+                    <i class="fas fa-chevron-down text-sm transition-transform duration-300"></i>
+                </button>
+                <div class="faq-content mt-2 text-gray-600 hidden">
+                    <p>Store your honey at room temperature in a cool, dark place. Avoid refrigeration as it can cause crystallization. If your honey does crystallize (a natural process for raw honey), simply place the jar in warm water to liquefy it again.</p>
+                </div>
+            </div>
+            
+            <!-- FAQ 3 -->
+            <div class="border-b border-gray-200 pb-4">
+                <button class="faq-toggle flex justify-between items-center w-full text-left font-medium text-gray-800 hover:text-green-800">
+                    <span>Is this honey suitable for vegans?</span>
+                    <i class="fas fa-chevron-down text-sm transition-transform duration-300"></i>
+                </button>
+                <div class="faq-content mt-2 text-gray-600 hidden">
+                    <p>While honey is a natural product made by bees, some vegans choose not to consume it as it's an animal byproduct. Our honey is harvested using sustainable beekeeping practices that prioritize bee health and welfare.</p>
+                </div>
+            </div>
+            
+            <!-- FAQ 4 -->
+            <div class="border-b border-gray-200 pb-4">
+                <button class="faq-toggle flex justify-between items-center w-full text-left font-medium text-gray-800 hover:text-green-800">
+                    <span>What makes your honey organic?</span>
+                    <i class="fas fa-chevron-down text-sm transition-transform duration-300"></i>
+                </button>
+                <div class="faq-content mt-2 text-gray-600 hidden">
+                    <p>Our honey is certified organic, meaning the bees forage on flowers from organic-certified land free from pesticides and chemicals. The hives are made from natural materials, and we never use antibiotics or synthetic treatments.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // FAQ Toggle Functionality
+    document.querySelectorAll('.faq-toggle').forEach(button => {
+        button.addEventListener('click', () => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            // Toggle content
+            content.classList.toggle('hidden');
+            
+            // Rotate icon
+            icon.classList.toggle('rotate-180');
+            
+            // Close other FAQs
+            document.querySelectorAll('.faq-toggle').forEach(otherButton => {
+                if (otherButton !== button) {
+                    otherButton.nextElementSibling.classList.add('hidden');
+                    otherButton.querySelector('i').classList.remove('rotate-180');
+                }
+            });
+        });
+    });
+
+    // Frequently Bought Together Checkbox Toggle
+    document.querySelectorAll('.frequently-bought input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', updateTotalPrice);
+    });
+
+    function updateTotalPrice() {
+        let total = 0;
+        document.querySelectorAll('.frequently-bought input[type="checkbox"]:checked').forEach(checkbox => {
+            const priceText = checkbox.closest('.relative').nextElementSibling.querySelector('p').textContent;
+            const price = parseFloat(priceText.replace('$', ''));
+            total += price;
+        });
+        
+        const totalElement = document.querySelector('.frequently-bought .text-xl');
+        totalElement.textContent = '$' + total.toFixed(2);
+    }
+</script>
+
+    <!-- Footer (same as your existing footer) -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <img src="https://via.placeholder.com/50x50" alt="Revonna Organics Logo" class="h-10 mr-2">
+                        <span class="text-2xl font-bold text-white">Revonna Organics</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">Committed to providing the highest quality organic products for a healthier you and a healthier planet.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Shop</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Customer Service</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">My Account</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Order Tracking</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Wishlist</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Shipping Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Returns & Refunds</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Contact Info</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-green-600"></i>
+                            <span>123 Organic Way, Portland, OR 97201</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-3 text-green-600"></i>
+                            <span>+1 (234) 567-8900</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3 text-green-600"></i>
+                            <span>hello@revonnaorganics.com</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-clock mr-3 text-green-600"></i>
+                            <span>Mon-Fri: 9AM - 6PM</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2023 Revonna Organics. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <img src="https://via.placeholder.com/50x30" alt="Visa" class="h-8">
+                    <img src="https://via.placeholder.com/50x30" alt="Mastercard" class="h-8">
+                    <img src="https://via.placeholder.com/50x30" alt="Amex" class="h-8">
+                    <img src="https://via.placeholder.com/50x30" alt="Paypal" class="h-8">
+                    <img src="https://via.placeholder.com/50x30" alt="Apple Pay" class="h-8">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Image Gallery
+        function changeImage(element) {
+            const mainImage = document.getElementById('main-image');
+            mainImage.src = element.src.replace('200&q=80', '1280&q=80');
+            
+            // Update thumbnail borders
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('border-green-600');
+                thumb.classList.add('border-transparent');
+            });
+            
+            element.parentElement.classList.remove('border-transparent');
+            element.parentElement.classList.add('border-green-600');
+        }
+
+        // Tab System
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons and content
+                document.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Add active class to clicked button and corresponding content
+                button.classList.add('active');
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Quantity Selector
+        document.querySelectorAll('.quantity button').forEach(button => {
+            button.addEventListener('click', () => {
+                const input = button.parentElement.querySelector('input');
+                let value = parseInt(input.value);
+                
+                if (button.textContent === '+' && value < 10) {
+                    input.value = value + 1;
+                } else if (button.textContent === '-' && value > 1) {
+                    input.value = value - 1;
+                }
+            });
+        });
+
+        // Size Selector
+        document.querySelectorAll('.size-selector button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                document.querySelectorAll('.size-selector button').forEach(btn => {
+                    btn.classList.remove('bg-green-50', 'text-green-800', 'border-green-600');
+                    btn.classList.add('border-gray-300');
+                });
+                
+                button.classList.add('bg-green-50', 'text-green-800', 'border-green-600');
+                button.classList.remove('border-gray-300');
+            });
+        });
+    </script>
+</body>
+</html>

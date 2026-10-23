@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Organic Products - Revonna Organics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary: #2a7d2e;
+            --primary-light: #3e9f44;
+            --primary-dark: #1e5c21;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9fafb;
+        }
+
+        .heading-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .rating-stars {
+            color: #fbbf24;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-section {
+            transition: all 0.3s ease;
+        }
+
+        .filter-checkbox:checked {
+            background-color: var(--primary);
+        }
+
+        .noUi-connect {
+            background-color: var(--primary);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.css">
+</head>
+<body class="antialiased">
+    <!-- Header (same as previous examples) -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <!-- Your existing header content -->
+    </header>
+
+    <!-- Shop Hero Section -->
+    <section class="py-16 bg-green-800 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 heading-font">Shop Organic Products</h1>
+            <p class="text-lg max-w-2xl mx-auto">Discover our handpicked selection of certified organic food and wellness products</p>
+        </div>
+    </section>
+
+    <!-- Shop Content -->
+    <section class="py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Filters Sidebar -->
+                <div class="lg:w-1/4">
+                    <div class="bg-white rounded-xl shadow-sm p-6 sticky top-24">
+                        <!-- Categories Filter -->
+                        <div class="mb-8">
+                            <h3 class="font-bold text-lg mb-4 flex justify-between items-center">
+                                <span>Categories</span>
+                                <button class="lg:hidden text-gray-500">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </h3>
+                            <ul class="space-y-2">
+                                <li>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="checkbox" class="filter-checkbox h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500">
+                                        <span class="text-gray-700">All Products</span>
+                                        <span class="text-gray-400 text-sm">(128)</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="checkbox" class="filter-checkbox h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500">
+                                        <span class="text-gray-700">Organic Foods</span>
+                                        <span class="text-gray-400 text-sm">(56)</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="checkbox" class="filter-checkbox h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500">
+                                        <span class="text-gray-700">Beauty & Skincare</span>
+                                        <span class="text-gray-400 text-sm">(32)</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="checkbox" class="filter-checkbox h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500">
+                                        <span class="text-gray-700">Supplements</span>
+                                        <span class="text-gray-400 text-sm">(24)</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="checkbox" class="filter-checkbox h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500">
+                                        <span class="text-gray-700">Home Essentials</span>
+                                        <span class="text-gray-400 text-sm">(16)</span>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Price Range Filter -->
+                        <div class="mb-8">
+                            <h3 class="font-bold text-lg mb-4">Price Range</h3>
+                            <div id="price-slider" class="mb-4"></div>
+                            <div class="flex justify-between text-sm text-gray-600">
+                                <span id="price-min">$0</span>
+                                <span id="price-max">$100</span>
+                            </div>
+                        </div>
+
+                        <!-- Rating Filter -->
+                        <div class="mb-8">
+                            <h3 class="font-bold text-lg mb-4">Customer Rating</h3>
+                            <ul class="space-y-2">
+                                <li>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="checkbox" class="filter-checkbox h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500">
+                                        <div class="rating-stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <span class="text-gray-600 ml-1">& Up</span>
+                                        </div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="checkbox" class="filter-checkbox h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500">
+                                        <div class="rating-stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <span class="text-gray-600 ml-1">& Up</span>
+                                        </div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="checkbox" class="filter-checkbox h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500">
+                                        <div class="rating-stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <span class="text-gray-600 ml-1">& Up</span>
+                                        </div>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Availability Filter -->
+                        <div class="mb-8">
+                            <h3 class="font-bold text-lg mb-4">Availability</h3>
+                            <ul class="space-y-2">
+                                <li>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="checkbox" class="filter-checkbox h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500">
+                                        <span class="text-gray-700">In Stock</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="checkbox" class="filter-checkbox h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500">
+                                        <span class="text-gray-700">On Sale</span>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <button class="btn-primary w-full py-3 rounded-md font-medium">
+                            Apply Filters
+                        </button>
+                        <button class="text-green-800 font-medium mt-2 text-sm hover:underline">
+                            Reset All Filters
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="lg:w-3/4">
+                    <!-- Sorting and View Options -->
+                    <div class="bg-white rounded-xl shadow-sm p-4 mb-6 flex flex-col sm:flex-row justify-between items-center">
+                        <div class="mb-4 sm:mb-0">
+                            <span class="text-gray-600 mr-2">Sort by:</span>
+                            <select class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                <option>Featured</option>
+                                <option>Price: Low to High</option>
+                                <option>Price: High to Low</option>
+                                <option>Highest Rated</option>
+                                <option>Newest Arrivals</option>
+                                <option>Best Selling</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-gray-600 mr-2">View:</span>
+                            <button class="p-2 text-gray-600 hover:text-green-800 mr-2">
+                                <i class="fas fa-th-large"></i>
+                            </button>
+                            <button class="p-2 text-gray-600 hover:text-green-800">
+                                <i class="fas fa-list"></i>
+                            </button>
+                            <span class="text-gray-600 ml-4">Showing 1-12 of 128 products</span>
+                        </div>
+                    </div>
+
+                    <!-- Products Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Product 1 -->
+                        <div class="product-card bg-white rounded-xl overflow-hidden shadow-md transition duration-300">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1615486364408-98f525d0a888?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                                    alt="Organic Honey" class="w-full h-48 object-cover">
+                                <div class="absolute top-3 right-3">
+                                    <span class="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded-full">NEW</span>
+                                </div>
+                                <button class="absolute top-3 left-3 w-10 h-10 bg-white rounded-full flex items-center justify-center text-gray-600 hover:text-green-800 shadow-md transition">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-gray-800">Raw Organic Honey</h3>
+                                    <span class="text-green-800 font-bold">$12.99</span>
+                                </div>
+                                <div class="rating-stars mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span class="text-gray-500 text-sm ml-1">(48)</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mb-4">Pure, unfiltered honey from local organic beekeepers</p>
+                                <button class="w-full bg-green-800 hover:bg-green-700 text-white py-2 rounded-md transition duration-300">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product 2 -->
+                        <div class="product-card bg-white rounded-xl overflow-hidden shadow-md transition duration-300">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1603569283847-aa6f0b557a1e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                                    alt="Organic Olive Oil" class="w-full h-48 object-cover">
+                                <div class="absolute top-3 right-3">
+                                    <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded-full">SALE</span>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-gray-800">Extra Virgin Olive Oil</h3>
+                                    <div>
+                                        <span class="text-gray-400 line-through mr-2">$24.99</span>
+                                        <span class="text-green-800 font-bold">$19.99</span>
+                                    </div>
+                                </div>
+                                <div class="rating-stars mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span class="text-gray-500 text-sm ml-1">(36)</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mb-4">Cold-pressed from organic olives in Greece</p>
+                                <button class="w-full bg-green-800 hover:bg-green-700 text-white py-2 rounded-md transition duration-300">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product 3 -->
+                        <div class="product-card bg-white rounded-xl overflow-hidden shadow-md transition duration-300">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1603569296100-23c0b96a8f5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                                    alt="Organic Almonds" class="w-full h-48 object-cover">
+                            </div>
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-gray-800">Raw Organic Almonds</h3>
+                                    <span class="text-green-800 font-bold">$8.99</span>
+                                </div>
+                                <div class="rating-stars mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="text-gray-500 text-sm ml-1">(72)</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mb-4">California grown, non-GMO, packed with nutrients</p>
+                                <button class="w-full bg-green-800 hover:bg-green-700 text-white py-2 rounded-md transition duration-300">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product 4 -->
+                        <div class="product-card bg-white rounded-xl overflow-hidden shadow-md transition duration-300">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                                    alt="Organic Skincare Set" class="w-full h-48 object-cover">
+                                <div class="absolute top-3 right-3">
+                                    <span class="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded-full">BESTSELLER</span>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-gray-800">Organic Skincare Set</h3>
+                                    <span class="text-green-800 font-bold">$39.99</span>
+                                </div>
+                                <div class="rating-stars mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span class="text-gray-500 text-sm ml-1">(124)</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mb-4">Complete facial care with natural ingredients</p>
+                                <button class="w-full bg-green-800 hover:bg-green-700 text-white py-2 rounded-md transition duration-300">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product 5 -->
+                        <div class="product-card bg-white rounded-xl overflow-hidden shadow-md transition duration-300">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1617093727343-374698b1b08d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                                    alt="Organic Coffee" class="w-full h-48 object-cover">
+                            </div>
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-gray-800">Organic Arabica Coffee</h3>
+                                    <span class="text-green-800 font-bold">$14.99</span>
+                                </div>
+                                <div class="rating-stars mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span class="text-gray-500 text-sm ml-1">(67)</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mb-4">Rich, smooth flavor from organic coffee beans</p>
+                                <button class="w-full bg-green-800 hover:bg-green-700 text-white py-2 rounded-md transition duration-300">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product 6 -->
+                        <div class="product-card bg-white rounded-xl overflow-hidden shadow-md transition duration-300">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                                    alt="Organic Protein Powder" class="w-full h-48 object-cover">
+                            </div>
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-gray-800">Organic Protein Powder</h3>
+                                    <span class="text-green-800 font-bold">$29.99</span>
+                                </div>
+                                <div class="rating-stars mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span class="text-gray-500 text-sm ml-1">(56)</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mb-4">Plant-based protein with 5 superfoods</p>
+                                <button class="w-full bg-green-800 hover:bg-green-700 text-white py-2 rounded-md transition duration-300">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="mt-12 flex justify-center">
+                        <nav class="flex items-center space-x-2">
+                            <button class="w-10 h-10 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="w-10 h-10 flex items-center justify-center rounded-md bg-green-800 text-white font-medium">1</button>
+                            <button class="w-10 h-10 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100">2</button>
+                            <button class="w-10 h-10 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100">3</button>
+                            <span class="px-2">...</span>
+                            <button class="w-10 h-10 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100">8</button>
+                            <button class="w-10 h-10 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (same as previous examples) -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <!-- Your existing footer content -->
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.js"></script>
+    <script>
+        // Initialize price range slider
+        const priceSlider = document.getElementById('price-slider');
+        const priceMin = document.getElementById('price-min');
+        const priceMax = document.getElementById('price-max');
+
+        noUiSlider.create(priceSlider, {
+            start: [0, 100],
+            connect: true,
+            range: {
+                'min': 0,
+                'max': 100
+            },
+            format: {
+                to: function(value) {
+                    return '$' + Math.round(value);
+                },
+                from: function(value) {
+                    return Number(value.replace('$', ''));
+                }
+            }
+        });
+
+        priceSlider.noUiSlider.on('update', function(values, handle) {
+            if (handle) {
+                priceMax.innerHTML = values[handle];
+            } else {
+                priceMin.innerHTML = values[handle];
+            }
+        });
+
+        // Mobile filters toggle
+        document.querySelector('.mobile-filters-button').addEventListener('click', function() {
+            document.querySelector('.filter-section').classList.toggle('hidden');
+        });
+
+        // Product card hover effect
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+            });
+        });
+    </script>
+</body>
+</html>
